@@ -1,0 +1,15 @@
+.header {
+    height: 88px;
+    background: #1C1C21;
+}
+
+.nav {
+    display: flex;
+}
+
+.headerBody {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}

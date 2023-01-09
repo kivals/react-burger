@@ -1,0 +1,6 @@
+@value vars: "../../styles/vars.module.css";
+@value bgMain from vars;
+
+.app {
+    background-color: bgMain;
+}
