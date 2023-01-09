@@ -2,15 +2,21 @@ import React from 'react';
 import BurgerTabs from "../BurgerTabs/BurgerTabs";
 import BurgerCardIngredient from "../BurgerCardIngredient/BurgerCardIngredient";
 import burgerIngredientsStyles from './BurgerIngredients.module.css';
+import PropTypes from "prop-types";
+import {ingredientPropTypes} from "../../../utils/props";
+
+const BUN_INGREDIENT = 'bun';
+const SAUCE_INGREDIENT = 'sauce';
+const MAIN_INGREDIENT = 'main';
 
 const BurgerIngredients = ({data}) => {
     const getIngredientsByType = (type) => {
         return data.filter( ing => ing.type === type);
     }
 
-    const buns = getIngredientsByType('bun');
-    const sauces = getIngredientsByType('sauce');
-    const filling = getIngredientsByType('main');
+    const buns = getIngredientsByType(BUN_INGREDIENT);
+    const sauces = getIngredientsByType(SAUCE_INGREDIENT);
+    const filling = getIngredientsByType(MAIN_INGREDIENT);
 
     return (
         <>
@@ -41,5 +47,9 @@ const BurgerIngredients = ({data}) => {
 };
 
 
+
+BurgerIngredients.propTypes = {
+    data: PropTypes.arrayOf(ingredientPropTypes),
+}
 
 export default BurgerIngredients;

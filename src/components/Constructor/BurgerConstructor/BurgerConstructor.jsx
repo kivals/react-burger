@@ -1,13 +1,17 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
-import {iconTypes} from "../../../utils/icon-types";
+import {iconColorTypes, iconTypes} from "../../../utils/icon-types";
 import AppIcon from "../../UI/AppIcon/AppIcon";
 import ConstructorOrder from "../ContructorOrder/ContructorOrder";
 import styles from './BurgerConstructor.module.css';
+import PropTypes from "prop-types";
+import {ingredientPropTypes} from "../../../utils/props";
+
+const BUN_INGREDIENT = 'bun';
 
 const BurgerConstructor = ({data}) => {
-    const ingredientsWithoutBuns = data.filter(ing => ing.type !== 'bun');
-    const buns = data.filter( ing => ing.type === 'bun')
+    const ingredientsWithoutBuns = useMemo(() => data.filter(ing => ing.type !== BUN_INGREDIENT), [data]);
+    const buns = useMemo(() => data.filter( ing => ing.type === BUN_INGREDIENT), [data]);
     const [upBun, downBun] = buns;
 
     return (
@@ -30,7 +34,7 @@ const BurgerConstructor = ({data}) => {
                 {ingredientsWithoutBuns.map(ing => (
                     <li key={ing._id}>
                         <div className={styles.ingredientItem}>
-                            <AppIcon icon={iconTypes.DRAG} type='primary'/>
+                            <AppIcon icon={iconTypes.DRAG} type={iconColorTypes.PRIMARY}/>
                             <ConstructorElement
                                 isLocked={false}
                                 text={ing.name}
@@ -56,10 +60,14 @@ const BurgerConstructor = ({data}) => {
                 )
             }
 
-            <ConstructorOrder number='610'/>
+            <ConstructorOrder number={610} />
         </>
 
     );
 };
+
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(ingredientPropTypes),
+}
 
 export default BurgerConstructor;

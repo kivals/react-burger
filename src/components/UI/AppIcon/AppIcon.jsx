@@ -6,6 +6,8 @@ import {
     ProfileIcon,
     DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from "prop-types";
+import {iconTypes} from "../../../utils/icon-types";
 
 const iconComponents = {
     'currency': CurrencyIcon,
@@ -23,5 +25,9 @@ const AppIcon = ({icon, type}) => {
         </>
     );
 };
+
+AppIcon.propTypes = {
+    icon: PropTypes.oneOf(Object.values(iconTypes)).isRequired
+}
 
 export default AppIcon;

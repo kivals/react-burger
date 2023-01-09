@@ -5,3 +5,9 @@ export const iconTypes = {
     PROFILE: 'profile',
     DRAG: 'drag',
 }
+
+export const iconColorTypes = {
+    PRIMARY: 'primary',
+    SECONDARY: 'secondary',
+    ERROR: 'error',
+}
