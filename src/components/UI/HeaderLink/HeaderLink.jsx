@@ -16,7 +16,9 @@ const HeaderLink = ({icon, type = iconColorTypes.PRIMARY, children}) => {
 };
 
 HeaderLink.propTypes = {
-  icon: PropTypes.oneOf(Object.values(iconTypes)).isRequired
+  icon: PropTypes.oneOf(Object.values(iconTypes)).isRequired,
+  type: PropTypes.oneOf(Object.values(iconColorTypes)),
+  children: PropTypes.string,
 }
 
 export default HeaderLink;

@@ -21,7 +21,7 @@ const BurgerCardIngredient = ({data, count}) => {
 };
 
 BurgerCardIngredient.propTypes = {
-  data: ingredientPropTypes,
+  data: ingredientPropTypes.isRequired,
   count: PropTypes.number,
 }
 
