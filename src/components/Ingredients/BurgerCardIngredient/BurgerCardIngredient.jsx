@@ -6,9 +6,9 @@ import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../../utils/props";
 import {iconColorTypes} from "../../../utils/icon-types";
 
-const BurgerCardIngredient = ({data, count}) => {
+const BurgerCardIngredient = ({data, count, onClick}) => {
     return (
-        <article className={styles.card}>
+        <article className={styles.card} onClick={onClick}>
             <img src={data.image} width="240" height="120" className={styles.image} alt={data.name}/>
             <div className={styles.priceBody}>
                 <span className={styles.priceNumber}>{data.price}</span>
@@ -23,6 +23,7 @@ const BurgerCardIngredient = ({data, count}) => {
 BurgerCardIngredient.propTypes = {
   data: ingredientPropTypes.isRequired,
   count: PropTypes.number,
+  onClick: PropTypes.func,
 }
 
 export default BurgerCardIngredient;

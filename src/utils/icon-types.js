@@ -4,6 +4,7 @@ export const iconTypes = {
     LIST: 'list',
     PROFILE: 'profile',
     DRAG: 'drag',
+    CLOSE: 'close',
 }
 
 export const iconColorTypes = {
