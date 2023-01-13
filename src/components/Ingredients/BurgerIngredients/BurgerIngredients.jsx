@@ -6,30 +6,21 @@ import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../../utils/props";
 import Modal from "../../UI/Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-
-const BUN_INGREDIENT = 'bun';
-const SAUCE_INGREDIENT = 'sauce';
-const MAIN_INGREDIENT = 'main';
+import {BUN_INGREDIENT, MAIN_INGREDIENT, SAUCE_INGREDIENT} from "../../../utils/consts";
 
 const BurgerIngredients = ({data}) => {
-    const [isModal, setIsModal] = React.useState(false);
-    const [modalIngredient, setModalIngredient] = React.useState({});
+    const [modalIngredient, setModalIngredient] = React.useState(null);
 
-    const getIngredientsByType = (type) => {
-        return data.filter( ing => ing.type === type);
-    }
-
-    const buns = getIngredientsByType(BUN_INGREDIENT);
-    const sauces = getIngredientsByType(SAUCE_INGREDIENT);
-    const filling = getIngredientsByType(MAIN_INGREDIENT);
+    const buns = React.useMemo(() => data.filter( ing => ing.type === BUN_INGREDIENT), [data]);
+    const sauces = React.useMemo(() => data.filter( ing => ing.type === SAUCE_INGREDIENT), [data]);
+    const filling = React.useMemo(() => data.filter( ing => ing.type === MAIN_INGREDIENT), [data]);
 
     const showModal = (ingredient) => () => {
         setModalIngredient(ingredient);
-        setIsModal(true);
     }
 
     const onClose = () => {
-        setIsModal(false);
+        setModalIngredient(null);
     }
 
     const modal = (
@@ -63,7 +54,7 @@ const BurgerIngredients = ({data}) => {
                 </section>
             </div>
 
-            {isModal && modal}
+            {modalIngredient && modal}
         </>
     );
 };

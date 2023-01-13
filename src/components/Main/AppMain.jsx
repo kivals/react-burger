@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
-import axios from 'axios';
 import BurgerIngredients from "../Ingredients/BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../Constructor/BurgerConstructor/BurgerConstructor";
 import mainStyles from './Main.module.css';
+import { BASE_API_URL } from "../../utils/consts";
+import { getDataFromApi } from "../../utils/utils";
 
-const API_URL = 'https://norma.nomoreparties.space/api/ingredients ';
+const INGREDIENTS_API_URL = `${BASE_API_URL}ingredients`;
 
 const AppMain = () => {
     const [apiData, setApiData] = React.useState([]);
@@ -16,10 +17,11 @@ const AppMain = () => {
             setIsError(false);
             setIsLoading(true);
             try {
-                const result = await axios(API_URL);
-                setApiData(result.data.data);
+                const result = await getDataFromApi(INGREDIENTS_API_URL);
+                setApiData(result.data);
             } catch (error) {
                 setIsError(true);
+                console.error(error);
             }
             setIsLoading(false);
         };

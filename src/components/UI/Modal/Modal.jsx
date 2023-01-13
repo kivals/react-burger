@@ -5,17 +5,18 @@ import styles from "./Modal.module.css";
 import AppIcon from "../AppIcon/AppIcon";
 import {iconColorTypes, iconTypes} from "../../../utils/icon-types";
 import PropTypes from "prop-types";
+import {ESC_KEY_CODE} from "../../../utils/consts";
 
 const Modal = ({title, children, onClose}) => {
     React.useEffect(() => {
       const closeModalHandler = (e) => {
-        if (e.keyCode === 27) {
+        if (e.keyCode === ESC_KEY_CODE) {
           onClose();
         }
       }
       window.addEventListener('keydown', closeModalHandler)
       return () => window.removeEventListener('keydown', closeModalHandler);
-    });
+    }, []);
 
     return ReactDOM.createPortal(
         <>
