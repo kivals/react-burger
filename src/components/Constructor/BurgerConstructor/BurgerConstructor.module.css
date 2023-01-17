@@ -1,0 +1,22 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    max-height: 464px;
+    overflow-y: scroll;
+    list-style: none;
+}
+
+.list li:not(:last-child) {
+    margin-bottom: 8px;
+}
+
+.bun {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.ingredientItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -1,0 +1,20 @@
+.order {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.order svg {
+    width: 36px;
+    height: 36px;
+}
+
+.orderNumber {
+    font-family: 'Iceland', Arial, sans-serif;
+    font-size: 48px;
+}
+
+.button {
+    font-size: 16px;
+    line-height: 24px;
+}

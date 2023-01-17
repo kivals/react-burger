@@ -1,0 +1,38 @@
+.card {
+    position: relative;
+    padding-left: 16px;
+    padding-right: 16px;
+    cursor: pointer;
+}
+
+.image {
+    width: 240px;
+    height: 120px;
+    margin-bottom: 4px;
+}
+
+.priceBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+}
+
+.priceNumber {
+    font-family: 'Iceland', Arial, sans-serif;
+    font-size: 28px;
+    line-height: 24px;
+    margin-right: 5px;
+}
+
+.name {
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+}
+
+.counter {
+    position: absolute;
+    right: 0;
+    top: 0;
+}

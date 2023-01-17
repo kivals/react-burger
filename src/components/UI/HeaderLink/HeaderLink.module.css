@@ -1,0 +1,19 @@
+@value vars: "../../../styles/vars.module.css";
+@value textColor from vars;
+
+.link {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.text {
+    color: textColor;
+    margin-left: 8px;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.nonActive {
+    color: #8585AD;
+}
