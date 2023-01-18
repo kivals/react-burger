@@ -1,24 +1,29 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import BurgerIngredients from "../Ingredients/BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../Constructor/BurgerConstructor/BurgerConstructor";
+import { BurgerConstructorContext } from "../../services/constructorContext";
 import mainStyles from './Main.module.css';
-import { BASE_API_URL } from "../../utils/consts";
-import { getDataFromApi } from "../../utils/utils";
-
-const INGREDIENTS_API_URL = `${BASE_API_URL}ingredients`;
+import { GET_INGREDIENTS_URL, POST_ORDER_URL } from "../../utils/consts";
+import {generateMockConstructorData, getDataFromApi, postData} from "../../utils/utils";
 
 const AppMain = () => {
     const [apiData, setApiData] = React.useState([]);
     const [isError, setIsError] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [constructorIngredients, setConstructorIngredients] = React.useState([]);
+    const [constructorOrderNumber, setConstructorOrderNumber] = React.useState(null);
+    const [isMakeOrder, setIsMakeOrder] = React.useState([]);
 
-    useEffect( () => {
+    React.useEffect( () => {
         const fetchData = async () => {
             setIsError(false);
             setIsLoading(true);
             try {
-                const result = await getDataFromApi(INGREDIENTS_API_URL);
+                const result = await getDataFromApi(GET_INGREDIENTS_URL);
                 setApiData(result.data);
+
+                // TODO Формирование моковых данных для конструктора
+                setConstructorIngredients(generateMockConstructorData(result.data));
             } catch (error) {
                 setIsError(true);
                 console.error(error);
@@ -28,6 +33,24 @@ const AppMain = () => {
 
         fetchData();
     }, []);
+
+    React.useEffect( () => {
+        const fetchData = async () => {
+            if (!constructorIngredients.length) return;
+
+            try {
+                const body = {
+                    ingredients: constructorIngredients.map(ing => ing._id),
+                }
+                const result = await postData(POST_ORDER_URL, body);
+                setConstructorOrderNumber(result.order.number);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, [isMakeOrder]);
 
     return (
         <main className={`${mainStyles.main} container`}>
@@ -41,7 +64,9 @@ const AppMain = () => {
                         <BurgerIngredients data={apiData} />
                     </section>
                     <section className='pt-25'>
-                        <BurgerConstructor data={apiData}/>
+                        <BurgerConstructorContext.Provider value={{ingredients: constructorIngredients, setIsMakeOrder, constructorOrderNumber}} >
+                            <BurgerConstructor />
+                        </BurgerConstructorContext.Provider>
                     </section>
                 </>
             )}

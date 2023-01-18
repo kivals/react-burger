@@ -6,11 +6,14 @@ import styles from "./ContructorOrder.module.css";
 import PropTypes from "prop-types";
 import Modal from "../../UI/Modal/Modal";
 import OrderDetails from "../../Order/OrderDetails/OrderDetails";
+import { BurgerConstructorContext } from "../../../services/constructorContext";
 
 const ConstructorOrder = ({number}) => {
     const [isModal, setIsModal] = React.useState(false);
+    const { setIsMakeOrder } = React.useContext(BurgerConstructorContext);
 
-    const showModal = () => {
+    const makeOrder = () => {
+      setIsMakeOrder(true);
       setIsModal(true);
     }
 
@@ -33,7 +36,7 @@ const ConstructorOrder = ({number}) => {
               type={iconColorTypes.PRIMARY}
               size="large"
               extraClass={`${styles.button} ml-10` }
-              onClick={showModal}
+              onClick={makeOrder}
             >
                 Офомить заказ
             </Button>

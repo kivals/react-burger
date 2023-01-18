@@ -1,30 +1,36 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import {iconColorTypes, iconTypes} from "../../../utils/icon-types";
 import AppIcon from "../../UI/AppIcon/AppIcon";
 import ConstructorOrder from "../ContructorOrder/ContructorOrder";
 import styles from './BurgerConstructor.module.css';
-import PropTypes from "prop-types";
-import {ingredientPropTypes} from "../../../utils/props";
+import { BurgerConstructorContext } from "../../../services/constructorContext";
 
 const BUN_INGREDIENT = 'bun';
 
-const BurgerConstructor = ({data}) => {
-    const ingredientsWithoutBuns = useMemo(() => data.filter(ing => ing.type !== BUN_INGREDIENT), [data]);
-    const buns = useMemo(() => data.filter( ing => ing.type === BUN_INGREDIENT), [data]);
-    const [upBun, downBun] = buns;
+const BurgerConstructor = () => {
+  const [ totalPrice, setTotalPrice ] = React.useState(0);
+  const { ingredients } = React.useContext(BurgerConstructorContext);
+
+    const ingredientsWithoutBuns = React.useMemo(() => ingredients.filter(ing => ing.type !== BUN_INGREDIENT), [ingredients]);
+    const bun = React.useMemo(() => ingredients.find( ing => ing.type === BUN_INGREDIENT), [ingredients]);
+
+    React.useEffect(() => {
+      const price = ingredientsWithoutBuns.reduce((sum, cur) => sum + cur.price, 0) + bun.price * 2;
+      setTotalPrice(price);
+    }, [ingredientsWithoutBuns, bun]);
 
     return (
         <>
-            { upBun &&
+            { bun &&
                 (
                     <div className={`${styles.bun} mb-4 pr-4`}>
                         <ConstructorElement
                             type="top"
                             isLocked={true}
-                            text={upBun.name}
-                            price={upBun.price}
-                            thumbnail={upBun.image_mobile}
+                            text={`${bun.name} (верх)`}
+                            price={bun.price}
+                            thumbnail={bun.image_mobile}
                         />
                     </div>
                 )
@@ -46,28 +52,24 @@ const BurgerConstructor = ({data}) => {
                 ))}
             </ul>
 
-            { downBun &&
+            { bun &&
                 (
                     <div className={`${styles.bun} mb-10 pr-4`}>
                         <ConstructorElement
                             type="bottom"
                             isLocked={true}
-                            text={downBun.name}
-                            price={downBun.price}
-                            thumbnail={downBun.image_mobile}
+                            text={`${bun.name} (низ)`}
+                            price={bun.price}
+                            thumbnail={bun.image_mobile}
                         />
                     </div>
                 )
             }
 
-            <ConstructorOrder number={610} />
+            <ConstructorOrder number={totalPrice} />
         </>
 
     );
 };
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-}
 
 export default BurgerConstructor;
