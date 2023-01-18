@@ -9,16 +9,11 @@ import { BurgerConstructorContext } from "../../../services/constructorContext";
 const BUN_INGREDIENT = 'bun';
 
 const BurgerConstructor = () => {
-  const [ totalPrice, setTotalPrice ] = React.useState(0);
-  const { ingredients } = React.useContext(BurgerConstructorContext);
+    const { ingredients } = React.useContext(BurgerConstructorContext);
 
     const ingredientsWithoutBuns = React.useMemo(() => ingredients.filter(ing => ing.type !== BUN_INGREDIENT), [ingredients]);
     const bun = React.useMemo(() => ingredients.find( ing => ing.type === BUN_INGREDIENT), [ingredients]);
-
-    React.useEffect(() => {
-      const price = ingredientsWithoutBuns.reduce((sum, cur) => sum + cur.price, 0) + bun.price * 2;
-      setTotalPrice(price);
-    }, [ingredientsWithoutBuns, bun]);
+    const totalPrice = React.useMemo(() => ingredientsWithoutBuns.reduce((sum, cur) => sum + cur.price, 0) + bun.price * 2, [ingredientsWithoutBuns, bun])
 
     return (
         <>
@@ -66,7 +61,7 @@ const BurgerConstructor = () => {
                 )
             }
 
-            <ConstructorOrder number={totalPrice} />
+            <ConstructorOrder price={totalPrice} />
         </>
 
     );

@@ -7,29 +7,40 @@ import PropTypes from "prop-types";
 import Modal from "../../UI/Modal/Modal";
 import OrderDetails from "../../Order/OrderDetails/OrderDetails";
 import { BurgerConstructorContext } from "../../../services/constructorContext";
+import {postData} from "../../../utils/utils";
+import {POST_ORDER_URL} from "../../../utils/consts";
 
-const ConstructorOrder = ({number}) => {
-    const [isModal, setIsModal] = React.useState(false);
-    const { setIsMakeOrder } = React.useContext(BurgerConstructorContext);
+const ConstructorOrder = ({price}) => {
+    const [orderNumber, setOrderNumber] = React.useState(null);
+    const { ingredients } = React.useContext(BurgerConstructorContext);
 
-    const makeOrder = () => {
-      setIsMakeOrder(true);
-      setIsModal(true);
-    }
+    const makeOrder = async () => {
+      if (!ingredients.length) return;
+
+      try {
+        const body = {
+          ingredients: ingredients.map(ing => ing._id),
+        }
+        const result = await postData(POST_ORDER_URL, body);
+        setOrderNumber(result.order.number);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     const onClose = () => {
-      setIsModal(false);
+      setOrderNumber(null);
     }
 
     const modal = (
       <Modal onClose={onClose}>
-        <OrderDetails />
+        <OrderDetails orderNumber={orderNumber} />
       </Modal>
     );
 
     return (
         <div className={`${styles.order} pr-4`}>
-            <span className={`${styles.orderNumber} mr-2`}>{ number }</span>
+            <span className={`${styles.orderNumber} mr-2`}>{ price }</span>
             <AppIcon icon={iconTypes.CURRENCY} type={iconColorTypes.PRIMARY} />
             <Button
               htmlType="button"
@@ -40,13 +51,13 @@ const ConstructorOrder = ({number}) => {
             >
                 Офомить заказ
             </Button>
-          {isModal && modal}
+          {orderNumber && modal}
         </div>
     );
 };
 
 ConstructorOrder.propTypes = {
-  number: PropTypes.number.isRequired,
+  price: PropTypes.number.isRequired,
 }
 
 export default ConstructorOrder;

@@ -3,16 +3,14 @@ import BurgerIngredients from "../Ingredients/BurgerIngredients/BurgerIngredient
 import BurgerConstructor from "../Constructor/BurgerConstructor/BurgerConstructor";
 import { BurgerConstructorContext } from "../../services/constructorContext";
 import mainStyles from './Main.module.css';
-import { GET_INGREDIENTS_URL, POST_ORDER_URL } from "../../utils/consts";
-import {generateMockConstructorData, getDataFromApi, postData} from "../../utils/utils";
+import { GET_INGREDIENTS_URL } from "../../utils/consts";
+import {generateMockConstructorData, getDataFromApi} from "../../utils/utils";
 
 const AppMain = () => {
     const [apiData, setApiData] = React.useState([]);
     const [isError, setIsError] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(true);
     const [constructorIngredients, setConstructorIngredients] = React.useState([]);
-    const [constructorOrderNumber, setConstructorOrderNumber] = React.useState(null);
-    const [isMakeOrder, setIsMakeOrder] = React.useState([]);
 
     React.useEffect( () => {
         const fetchData = async () => {
@@ -34,24 +32,6 @@ const AppMain = () => {
         fetchData();
     }, []);
 
-    React.useEffect( () => {
-        const fetchData = async () => {
-            if (!constructorIngredients.length) return;
-
-            try {
-                const body = {
-                    ingredients: constructorIngredients.map(ing => ing._id),
-                }
-                const result = await postData(POST_ORDER_URL, body);
-                setConstructorOrderNumber(result.order.number);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchData();
-    }, [isMakeOrder]);
-
     return (
         <main className={`${mainStyles.main} container`}>
             {isError && <div>УПС что-то пошло не так...</div>}
@@ -64,7 +44,7 @@ const AppMain = () => {
                         <BurgerIngredients data={apiData} />
                     </section>
                     <section className='pt-25'>
-                        <BurgerConstructorContext.Provider value={{ingredients: constructorIngredients, setIsMakeOrder, constructorOrderNumber}} >
+                        <BurgerConstructorContext.Provider value={{ingredients: constructorIngredients}} >
                             <BurgerConstructor />
                         </BurgerConstructorContext.Provider>
                     </section>
