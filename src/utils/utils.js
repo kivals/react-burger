@@ -42,3 +42,7 @@ export const generateMockConstructorData = (apiData) => {
   return [buns[getRandom(buns.length)], ...ingredients.splice(0, getRandom(ingredients.length))];
 }
 
+export const calcTotalPrice = (bun, ingredients) => {
+  const bunPrice = bun.price || 0;
+  return ingredients.reduce((sum, cur) => sum + cur.price, 0) + bunPrice * 2;
+}

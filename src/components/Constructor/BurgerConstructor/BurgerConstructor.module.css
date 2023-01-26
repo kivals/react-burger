@@ -1,3 +1,7 @@
+.body {
+    min-height: 500px;
+}
+
 .list {
     display: flex;
     flex-direction: column;

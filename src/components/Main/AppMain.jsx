@@ -1,54 +1,41 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import BurgerIngredients from "../Ingredients/BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../Constructor/BurgerConstructor/BurgerConstructor";
-import { BurgerConstructorContext } from "../../services/constructorContext";
 import mainStyles from './Main.module.css';
-import { GET_INGREDIENTS_URL } from "../../utils/consts";
-import {generateMockConstructorData, getDataFromApi} from "../../utils/utils";
+import {useDispatch, useSelector} from "react-redux";
+import {getIngredients} from "../../services/actions/ingredients";
+import {DndProvider} from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
+import Loader from "../UI/AppLoader/Loader";
 
 const AppMain = () => {
-    const [apiData, setApiData] = React.useState([]);
-    const [isError, setIsError] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [constructorIngredients, setConstructorIngredients] = React.useState([]);
 
-    React.useEffect( () => {
-        const fetchData = async () => {
-            setIsError(false);
-            setIsLoading(true);
-            try {
-                const result = await getDataFromApi(GET_INGREDIENTS_URL);
-                setApiData(result.data);
+    const dispatch = useDispatch();
 
-                // TODO Формирование моковых данных для конструктора
-                setConstructorIngredients(generateMockConstructorData(result.data));
-            } catch (error) {
-                setIsError(true);
-                console.error(error);
-            }
-            setIsLoading(false);
-        };
+    const { ingredients, isLoading, hasError } = useSelector(state => state.ingredients);
 
-        fetchData();
-    }, []);
+    useEffect(
+      () => {
+          dispatch(getIngredients());
+      },
+      [dispatch]
+    );
 
     return (
         <main className={`${mainStyles.main} container`}>
-            {isError && <div>УПС что-то пошло не так...</div>}
+            {hasError && <div>УПС что-то пошло не так...</div>}
 
-            {isLoading && (<div>Загрузка ...</div>)}
+            {isLoading && (<Loader size="large"/>)}
 
-            {!isLoading && !isError && (
-                <>
+            {!isLoading && !hasError && (
+                <DndProvider backend={HTML5Backend}>
                     <section className='pt-10'>
-                        <BurgerIngredients data={apiData} />
+                        <BurgerIngredients data={ingredients} />
                     </section>
                     <section className='pt-25'>
-                        <BurgerConstructorContext.Provider value={{ingredients: constructorIngredients}} >
-                            <BurgerConstructor />
-                        </BurgerConstructorContext.Provider>
+                        <BurgerConstructor />
                     </section>
-                </>
+                </DndProvider>
             )}
         </main>
     );
