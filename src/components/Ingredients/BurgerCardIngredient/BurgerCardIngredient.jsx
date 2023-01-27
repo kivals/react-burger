@@ -17,7 +17,7 @@ const BurgerCardIngredient = ({data, onClick}) => {
     });
 
     const count = useMemo(() => {
-      if(data.type === BUN_INGREDIENT && data._id === bun._id) return 2;
+      if(data.type === BUN_INGREDIENT && data._id === bun?._id) return 2;
       return ingredients.filter(ing => ing._id === data._id)?.length;
     }, [data, ingredients, bun]);
 

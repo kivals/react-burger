@@ -1,7 +1,7 @@
-import {ORDER_FAILED, ORDER_REQUEST, ORDER_SUCCESS} from "../actions/order";
+import {CLEAR_ORDER, ORDER_FAILED, ORDER_REQUEST, ORDER_SUCCESS} from "../actions/order";
 
 const initialState = {
-  orderInfo: {},
+  orderInfo: null,
   isLoading: false,
   hasError: false,
 }
@@ -14,6 +14,7 @@ export const orderReducer = (state = initialState, action) => {
         isLoading: true,
       }
     }
+
     case ORDER_SUCCESS: {
       return {
         ...state,
@@ -22,9 +23,18 @@ export const orderReducer = (state = initialState, action) => {
         hasError: false,
       }
     }
+
     case ORDER_FAILED: {
-      return initialState
+      return {
+        ...initialState,
+        hasError: true,
+      };
     }
+
+    case CLEAR_ORDER: {
+      return initialState;
+    }
+
     default: {
       return state;
     }

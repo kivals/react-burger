@@ -1,30 +1,4 @@
-import axios from "axios";
 import {BUN_INGREDIENT} from "./consts";
-
-export const getDataFromApi = async (url) => {
-  try {
-    const { data } = await axios.get(url);
-    if (data && data.success) {
-      return data;
-    }
-    new Error("Ошибка выполнения запроса");
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const postData = async (url, body) => {
-  try {
-    const { data } = await axios.post(url, body);
-    if (data && data.success) {
-      return data;
-    }
-    new Error("Ошибка выполнения запроса");
-  } catch (e) {
-    console.error(e);
-  }
-}
-
 
 export const generateMockConstructorData = (apiData) => {
   if (!apiData || apiData.length === 0) {
@@ -43,6 +17,9 @@ export const generateMockConstructorData = (apiData) => {
 }
 
 export const calcTotalPrice = (bun, ingredients) => {
-  const bunPrice = bun.price || 0;
-  return ingredients.reduce((sum, cur) => sum + cur.price, 0) + bunPrice * 2;
+  const bunPrice = bun?.price || 0;
+  const ingredientPrice = ingredients?.reduce((sum, cur) => sum + cur.price, 0) || 0;
+  return ingredientPrice + bunPrice * 2;
 }
+
+export const getTimeStamp = () => new Date().getTime();

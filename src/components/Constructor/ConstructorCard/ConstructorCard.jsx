@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from "./ConstructorCard.module.css";
 import AppIcon from "../../UI/AppIcon/AppIcon";
 import {iconColorTypes, iconTypes} from "../../../utils/icon-types";
@@ -13,12 +13,15 @@ import {ingredientPropTypes} from "../../../utils/props";
 
 const ConstructorCard = ({ingredient}) => {
   const dispatch = useDispatch();
-  const [, dragRef] = useDrag({
+  const [{isDrag}, dragRef] = useDrag({
     type: "constructor",
     item: ingredient,
+    collect: monitor => ({
+      isDrag: monitor.isDragging()
+    })
   });
 
-  const [, dropTarget] = useDrop({
+  const [{isHover,dragIngredient}, dropTarget] = useDrop({
     accept: "constructor",
     drop(dragIngredient) {
       if (dragIngredient.key === ingredient.key) return;
@@ -28,7 +31,20 @@ const ConstructorCard = ({ingredient}) => {
         value: [ingredient, dragIngredient],
       })
     },
+    collect: monitor => ({
+      isHover: monitor.isOver(),
+      dragIngredient: monitor.getItem(),
+    }),
   });
+
+  useEffect(() => {
+    if (isHover && ingredient.key !== dragIngredient.key) {
+      dispatch({
+        type: SORT_CONSTRUCTOR_INGREDIENT,
+        value: [ingredient, dragIngredient],
+      })
+    }
+  }, [isHover,dispatch, dragIngredient, ingredient])
 
   const handleDelete = (deletedKey) => () => {
     dispatch({
@@ -39,7 +55,7 @@ const ConstructorCard = ({ingredient}) => {
 
   return (
     <div ref={dropTarget}>
-      <div className={styles.card} ref={dragRef}>
+      <div draggable='true' className={`${isDrag && styles.hidden } ${styles.card}`} ref={dragRef}>
         <AppIcon icon={iconTypes.DRAG} type={iconColorTypes.PRIMARY}/>
         <ConstructorElement
           isLocked={false}
@@ -55,7 +71,7 @@ const ConstructorCard = ({ingredient}) => {
 };
 
 ConstructorCard.propTypes = {
-  data: ingredientPropTypes
+  ingredient: ingredientPropTypes.isRequired
 }
 
 export default ConstructorCard;

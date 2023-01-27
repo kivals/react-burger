@@ -3,6 +3,7 @@ import {POST_ORDER_URL} from "../../utils/consts";
 export const ORDER_REQUEST = 'ORDER_REQUEST';
 export const ORDER_SUCCESS = 'ORDER_SUCCESS';
 export const ORDER_FAILED = 'ORDER_FAILED';
+export const CLEAR_ORDER = 'CLEAR_ORDER';
 
 export const getOrderData = (body) => (dispatch) => {
   dispatch({

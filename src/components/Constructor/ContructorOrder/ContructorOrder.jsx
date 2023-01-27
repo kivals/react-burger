@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import {iconColorTypes, iconTypes} from "../../../utils/icon-types";
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import AppIcon from "../../UI/AppIcon/AppIcon";
@@ -6,14 +6,16 @@ import styles from "./ContructorOrder.module.css";
 import Modal from "../../UI/Modal/Modal";
 import OrderDetails from "../../Order/OrderDetails/OrderDetails";
 import {useDispatch, useSelector} from "react-redux";
-import {getOrderData} from "../../../services/actions/order";
+import {CLEAR_ORDER, getOrderData} from "../../../services/actions/order";
 import Loader from "../../UI/AppLoader/Loader";
+import {calcTotalPrice} from "../../../utils/utils";
 
 const ConstructorOrder = () => {
     const dispatch = useDispatch();
-    const [isModal, setIsModal] = useState(false);
-    const { ingredients, bun, totalPrice } = useSelector(state => state.burgerConstructor);
-    const {number, name} = useSelector(state => state.order.orderInfo);
+    const { ingredients, bun = {} } = useSelector(state => state.burgerConstructor);
+    const { orderInfo } = useSelector(state => state.order);
+
+    const totalPrice = useMemo(() => calcTotalPrice(bun, ingredients), [ingredients, bun]);
 
     const makeOrder = () => {
       if (ingredients.length === 0 || !bun._id) return;
@@ -21,17 +23,18 @@ const ConstructorOrder = () => {
         ingredients: [...ingredients.map(ing => ing._id), bun._id],
       }
       dispatch(getOrderData(body));
-      setIsModal(true);
     };
 
     const onClose = () => {
-      setIsModal(false);
+      dispatch({
+        type: CLEAR_ORDER,
+      })
     }
 
     const modal = (
       <Modal onClose={onClose}>
-        {number ?
-          <OrderDetails number={number} name={name} /> :
+        {orderInfo ?
+          <OrderDetails number={orderInfo.number} name={orderInfo.name} /> :
           <Loader size="large" /> }
       </Modal>
     );
@@ -49,7 +52,7 @@ const ConstructorOrder = () => {
             >
                 Офомить заказ
             </Button>
-          {isModal && modal}
+          {orderInfo && modal}
         </div>
     );
 };

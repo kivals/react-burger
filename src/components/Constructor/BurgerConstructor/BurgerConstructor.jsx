@@ -1,13 +1,13 @@
 import React from 'react';
-import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorOrder from "../ContructorOrder/ContructorOrder";
 import styles from './BurgerConstructor.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
-import {ADD_CONSTRUCTOR_INGREDIENT} from "../../../services/actions/burgerConstructor";
+import { addIngredientToConstructor} from "../../../services/actions/burgerConstructor";
 import ConstructorCard from "../ConstructorCard/ConstructorCard";
 import EmptyConstructorElement from "./EmptyConstructorElement";
-import {BUN_INGREDIENT} from "../../../utils/consts";
+import {BUN_BOTTOM, BUN_INGREDIENT, BUN_TOP} from "../../../utils/consts";
+import ConstructorBunCard from "../ConstructorBunCard/ConstructorBunCard";
 
 const BurgerConstructor = () => {
     const dispatch = useDispatch();
@@ -19,32 +19,20 @@ const BurgerConstructor = () => {
         dragIngredient: monitor.getItem(),
       }),
       drop(ingredient) {
-        dispatch({
-          type: ADD_CONSTRUCTOR_INGREDIENT,
-          value: ingredient,
-        })
+        dispatch(addIngredientToConstructor(ingredient))
       },
     });
 
     return (
         <div className={styles.body} ref={dropTarget}>
-            { !bun._id ?
-                <EmptyConstructorElement type="top" isHover={isHover && dragIngredient.type === BUN_INGREDIENT}>
-                  Выберете булки
-                </EmptyConstructorElement> :
-                <div className={`${styles.bun} mb-4 pr-4`}>
-                    <ConstructorElement
-                        type="top"
-                        isLocked={true}
-                        text={`${bun.name} (верх)`}
-                        price={bun.price}
-                        thumbnail={bun.image_mobile}
-                    />
-                </div>
-            }
-
+            <ConstructorBunCard
+                bun={bun}
+                isHover={isHover}
+                dragIngredientType={dragIngredient?.type}
+                type={BUN_TOP}
+            />
             {
-                !ingredients.length ?
+                ingredients.length === 0 ?
                     <EmptyConstructorElement isHover={isHover && dragIngredient.type !== BUN_INGREDIENT}>
                       Выберите начинку
                     </EmptyConstructorElement> :
@@ -56,21 +44,12 @@ const BurgerConstructor = () => {
                         ))}
                     </ul>
             }
-
-            { !bun._id ?
-                <EmptyConstructorElement type="bottom" isHover={isHover && dragIngredient.type === BUN_INGREDIENT}>
-                  Выберете булки
-                </EmptyConstructorElement> :
-                <div className={`${styles.bun} mb-10 pr-4`}>
-                    <ConstructorElement
-                      type="bottom"
-                      isLocked={true}
-                      text={`${bun.name} (низ)`}
-                      price={bun.price}
-                      thumbnail={bun.image_mobile}
-                    />
-              </div>
-            }
+            <ConstructorBunCard
+                bun={bun}
+                isHover={isHover}
+                dragIngredientType={dragIngredient?.type}
+                type={BUN_BOTTOM}
+            />
 
             <ConstructorOrder />
         </div>

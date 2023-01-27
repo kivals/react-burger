@@ -7,9 +7,9 @@ import {ingredientPropTypes} from "../../../utils/props";
 import Modal from "../../UI/Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {BUN_INGREDIENT, MAIN_INGREDIENT, SAUCE_INGREDIENT} from "../../../utils/consts";
-import {useDispatch} from "react-redux";
-import {ADD_CONSTRUCTOR_INGREDIENT} from "../../../services/actions/burgerConstructor";
-import {SET_INGREDIENT_DETAILS} from "../../../services/actions/ingredients";
+import {useDispatch, useSelector} from "react-redux";
+import {addIngredientToConstructor} from "../../../services/actions/burgerConstructor";
+import {CLEAR_INGREDIENT_DETAILS, SET_INGREDIENT_DETAILS} from "../../../services/actions/ingredients";
 import {useInView} from "react-intersection-observer";
 
 const observerOptions = {
@@ -19,7 +19,7 @@ const observerOptions = {
 
 const BurgerIngredients = ({data}) => {
     const dispatch = useDispatch();
-    const [isModal, setIsModal] = useState(false);
+    const {details} = useSelector(state => state.ingredientDetails)
     const [currentTab, setCurrentTab] = useState(BUN_INGREDIENT);
 
     const { ref: bunRef, inView: bunRefVisible } = useInView(observerOptions);
@@ -42,30 +42,27 @@ const BurgerIngredients = ({data}) => {
     const filling = React.useMemo(() => data.filter( ing => ing.type === MAIN_INGREDIENT), [data]);
 
     const showModal = (ingredient) => () => {
-        dispatch({
-            type: ADD_CONSTRUCTOR_INGREDIENT,
-            value: ingredient
-        })
+        dispatch(addIngredientToConstructor(ingredient))
         dispatch({
             type: SET_INGREDIENT_DETAILS,
             value: ingredient
         })
-        setIsModal(true);
     }
 
     const onClose = () => {
-        setIsModal(false);
+        dispatch({
+            type: CLEAR_INGREDIENT_DETAILS
+        })
     }
 
     const modal = (
         <Modal title="Детали ингредиента" onClose={onClose}>
-            <IngredientDetails />
+            <IngredientDetails details={details} />
         </Modal>
     );
 
     return (
         <>
-            <h1 className={burgerIngredientsStyles.title}>Собери бургер</h1>
             <BurgerTabs current={currentTab} />
             <div id="scroll" className={burgerIngredientsStyles.scrollBody}>
                 <section ref={bunRef}>
@@ -94,7 +91,7 @@ const BurgerIngredients = ({data}) => {
                 </section>
             </div>
 
-            {isModal && modal}
+            {details && modal}
         </>
     );
 };

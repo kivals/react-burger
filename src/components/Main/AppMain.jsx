@@ -22,19 +22,23 @@ const AppMain = () => {
     );
 
     return (
-        <main className={`${mainStyles.main} container`}>
+        <main className={`${mainStyles.body} container`}>
             {hasError && <div>УПС что-то пошло не так...</div>}
 
             {isLoading && (<Loader size="large"/>)}
 
             {!isLoading && !hasError && (
                 <DndProvider backend={HTML5Backend}>
-                    <section className='pt-10'>
-                        <BurgerIngredients data={ingredients} />
-                    </section>
-                    <section className='pt-25'>
-                        <BurgerConstructor />
-                    </section>
+                    <h1 className={mainStyles.title}>Собери бургер</h1>
+                    <div className={mainStyles.main}>
+                        <section className={`${mainStyles.ingredients} pt-10`}>
+                            <BurgerIngredients data={ingredients} />
+                        </section>
+                        <section className={`${mainStyles.constructor} pt-25`}>
+                            <BurgerConstructor />
+                        </section>
+                    </div>
+
                 </DndProvider>
             )}
         </main>

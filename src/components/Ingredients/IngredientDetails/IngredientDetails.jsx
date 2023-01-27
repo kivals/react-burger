@@ -1,9 +1,8 @@
 import React from 'react';
 import styles from './IngredientDetails.module.css';
-import {useSelector} from "react-redux";
 
-const IngredientDetails = () => {
-  const details = useSelector(state => state.ingredientDetails)
+const IngredientDetails = ({details}) => {
+
   return (
     <>
       <img src={details.image_large} className={`${styles.image} mb-4`} alt={details.name} width="480" height="240" />
