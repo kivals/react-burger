@@ -7,16 +7,11 @@ import styles from './AppHeader.module.css';
 
 const AppHeader = () => {
     return (
-        <header className={styles.header}>
-            <div className='container'>
-                <div className={styles.headerBody}>
-                    <AppMenu />
-                    <AppLogo />
-                    <HeaderLink icon={iconTypes.BURGER} type={iconColorTypes.SECONDARY}>Личный кабинет</HeaderLink>
-                </div>
-
-            </div>
-        </header>
+        <div className={styles.headerBody}>
+            <AppMenu />
+            <AppLogo />
+            <HeaderLink icon={iconTypes.BURGER} type={iconColorTypes.SECONDARY} path='/profile'>Личный кабинет</HeaderLink>
+        </div>
     );
 };
 

@@ -22,7 +22,7 @@ const AppMain = () => {
     );
 
     return (
-        <main className={`${mainStyles.body} container`}>
+        <>
             {hasError && <div>УПС что-то пошло не так...</div>}
 
             {isLoading && (<Loader size="large"/>)}
@@ -41,7 +41,7 @@ const AppMain = () => {
 
                 </DndProvider>
             )}
-        </main>
+        </>
     );
 };
 

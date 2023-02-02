@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './IngredientDetails.module.css';
 
 const IngredientDetails = ({details}) => {
-
   return (
     <>
       <img src={details.image_large} className={`${styles.image} mb-4`} alt={details.name} width="480" height="240" />
