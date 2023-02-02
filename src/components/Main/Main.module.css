@@ -1,5 +1,38 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-width: 1240px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .main {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    width: 1240px;
+    overflow: hidden;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 40px;
+    margin-bottom: 20px;
+}
+
+.ingredients {
+    color: #f2f2f3;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.constructor {
+    width: 600px;
+    color: #f2f2f3;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
 }

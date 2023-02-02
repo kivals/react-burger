@@ -1,73 +1,59 @@
-import React, {useMemo} from 'react';
-import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
-import {iconColorTypes, iconTypes} from "../../../utils/icon-types";
-import AppIcon from "../../UI/AppIcon/AppIcon";
+import React from 'react';
 import ConstructorOrder from "../ContructorOrder/ContructorOrder";
 import styles from './BurgerConstructor.module.css';
-import PropTypes from "prop-types";
-import {ingredientPropTypes} from "../../../utils/props";
+import {useDispatch, useSelector} from "react-redux";
+import {useDrop} from "react-dnd";
+import { addIngredientToConstructor} from "../../../services/actions/burgerConstructor";
+import ConstructorCard from "../ConstructorCard/ConstructorCard";
+import EmptyConstructorElement from "./EmptyConstructorElement";
+import {BUN_BOTTOM, BUN_INGREDIENT, BUN_TOP} from "../../../utils/consts";
+import ConstructorBunCard from "../ConstructorBunCard/ConstructorBunCard";
 
-const BUN_INGREDIENT = 'bun';
-
-const BurgerConstructor = ({data}) => {
-    const ingredientsWithoutBuns = useMemo(() => data.filter(ing => ing.type !== BUN_INGREDIENT), [data]);
-    const buns = useMemo(() => data.filter( ing => ing.type === BUN_INGREDIENT), [data]);
-    const [upBun, downBun] = buns;
+const BurgerConstructor = () => {
+    const dispatch = useDispatch();
+    const { ingredients, bun } = useSelector(state => state.burgerConstructor);
+    const [{isHover, dragIngredient}, dropTarget] = useDrop({
+      accept: "ingredient",
+      collect: monitor => ({
+        isHover: monitor.isOver(),
+        dragIngredient: monitor.getItem(),
+      }),
+      drop(ingredient) {
+        dispatch(addIngredientToConstructor(ingredient))
+      },
+    });
 
     return (
-        <>
-            { upBun &&
-                (
-                    <div className={`${styles.bun} mb-4 pr-4`}>
-                        <ConstructorElement
-                            type="top"
-                            isLocked={true}
-                            text={upBun.name}
-                            price={upBun.price}
-                            thumbnail={upBun.image_mobile}
-                        />
-                    </div>
-                )
+        <div className={styles.body} ref={dropTarget}>
+            <ConstructorBunCard
+                bun={bun}
+                isHover={isHover}
+                dragIngredientType={dragIngredient?.type}
+                type={BUN_TOP}
+            />
+            {
+                ingredients.length === 0 ?
+                    <EmptyConstructorElement isHover={isHover && dragIngredient.type !== BUN_INGREDIENT}>
+                      Выберите начинку
+                    </EmptyConstructorElement> :
+                    <ul className={`${styles.list} mb-2 pr-4`}>
+                        {ingredients.map(ing => (
+                            <li key={ing.key}>
+                                <ConstructorCard ingredient={ing} />
+                            </li>
+                        ))}
+                    </ul>
             }
+            <ConstructorBunCard
+                bun={bun}
+                isHover={isHover}
+                dragIngredientType={dragIngredient?.type}
+                type={BUN_BOTTOM}
+            />
 
-            <ul className={`${styles.list} mb-2 pr-4`}>
-                {ingredientsWithoutBuns.map(ing => (
-                    <li key={ing._id}>
-                        <div className={styles.ingredientItem}>
-                            <AppIcon icon={iconTypes.DRAG} type={iconColorTypes.PRIMARY}/>
-                            <ConstructorElement
-                                isLocked={false}
-                                text={ing.name}
-                                price={ing.price}
-                                thumbnail={ing.image_mobile}
-                            />
-                        </div>
-                    </li>
-                ))}
-            </ul>
-
-            { downBun &&
-                (
-                    <div className={`${styles.bun} mb-10 pr-4`}>
-                        <ConstructorElement
-                            type="bottom"
-                            isLocked={true}
-                            text={downBun.name}
-                            price={downBun.price}
-                            thumbnail={downBun.image_mobile}
-                        />
-                    </div>
-                )
-            }
-
-            <ConstructorOrder number={610} />
-        </>
-
+            <ConstructorOrder />
+        </div>
     );
 };
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-}
 
 export default BurgerConstructor;

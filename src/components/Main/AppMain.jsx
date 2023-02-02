@@ -2,48 +2,44 @@ import React, {useEffect} from 'react';
 import BurgerIngredients from "../Ingredients/BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../Constructor/BurgerConstructor/BurgerConstructor";
 import mainStyles from './Main.module.css';
-import { BASE_API_URL } from "../../utils/consts";
-import { getDataFromApi } from "../../utils/utils";
-
-const INGREDIENTS_API_URL = `${BASE_API_URL}ingredients`;
+import {useDispatch, useSelector} from "react-redux";
+import {getIngredients} from "../../services/actions/ingredients";
+import {DndProvider} from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
+import Loader from "../UI/AppLoader/Loader";
 
 const AppMain = () => {
-    const [apiData, setApiData] = React.useState([]);
-    const [isError, setIsError] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(false);
 
-    useEffect( () => {
-        const fetchData = async () => {
-            setIsError(false);
-            setIsLoading(true);
-            try {
-                const result = await getDataFromApi(INGREDIENTS_API_URL);
-                setApiData(result.data);
-            } catch (error) {
-                setIsError(true);
-                console.error(error);
-            }
-            setIsLoading(false);
-        };
+    const dispatch = useDispatch();
 
-        fetchData();
-    }, []);
+    const { ingredients, isLoading, hasError } = useSelector(state => state.ingredients);
+
+    useEffect(
+      () => {
+          dispatch(getIngredients());
+      },
+      [dispatch]
+    );
 
     return (
-        <main className={`${mainStyles.main} container`}>
-            {isError && <div>УПС что-то пошло не так...</div>}
+        <main className={`${mainStyles.body} container`}>
+            {hasError && <div>УПС что-то пошло не так...</div>}
 
-            {isLoading && (<div>Загрузка ...</div>)}
+            {isLoading && (<Loader size="large"/>)}
 
-            {!isLoading && !isError && (
-                <>
-                    <section className='pt-10'>
-                        <BurgerIngredients data={apiData} />
-                    </section>
-                    <section className='pt-25'>
-                        <BurgerConstructor data={apiData}/>
-                    </section>
-                </>
+            {!isLoading && !hasError && (
+                <DndProvider backend={HTML5Backend}>
+                    <h1 className={mainStyles.title}>Собери бургер</h1>
+                    <div className={mainStyles.main}>
+                        <section className={`${mainStyles.ingredients} pt-10`}>
+                            <BurgerIngredients data={ingredients} />
+                        </section>
+                        <section className={`${mainStyles.constructor} pt-25`}>
+                            <BurgerConstructor />
+                        </section>
+                    </div>
+
+                </DndProvider>
             )}
         </main>
     );
