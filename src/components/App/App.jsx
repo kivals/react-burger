@@ -10,6 +10,7 @@ import ProfileOrderDetails from "../Profile/ProfileOrderDetails/ProfileOrderDeta
 import ForgotPassword from "../../pages/Auth/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/Auth/ResetPassword/ResetPassword";
 import IngredientDetailsPage from "../../pages/IngredientDetails/IngredientDetailsPage";
+import ProtectedRoute from "../ProtectedRoute";
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile" element={<ProtectedRoute element={<ProfilePage />}/>} />
           <Route path="/profile/orders" element={<ProfileOrders />} />
           <Route path="/profile/orders/:id" element={<ProfileOrderDetails />} />
           <Route path="/ingredient/:id" element={<IngredientDetailsPage />} />

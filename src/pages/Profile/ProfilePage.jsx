@@ -1,20 +1,30 @@
 import React from 'react';
 import styles from './Profile.module.css';
 import ProfileEdit from "../../components/Profile/ProfileEdit/ProfileEdit";
+import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {logout} from "../../services/actions/auth";
 
 const ProfilePage = () => {
+  const dispatch = useDispatch();
+
+  const exitHandler = (e) => {
+    e.preventDefault();
+    dispatch(logout());
+  }
+
   return (
     <div className={`${styles.profile} pt-30`}>
       <nav className={`${styles.menu} mr-15`}>
         <ul className={`${styles.menuList} mb-20`}>
           <li className={`${styles.menuItem} pt-3 pb-3`}>
-            <a href="/">Профиль</a>
+            <Link to="/profile">Профиль</Link>
           </li>
           <li className={`${styles.menuItem} pt-3 pb-3`}>
-            <a href="/">История заказов</a>
+            <Link to="/">История заказов</Link>
           </li>
           <li className={`${styles.menuItem} pt-3 pb-3`}>
-            <a href="/">Выход</a>
+            <a onClick={exitHandler} href="/">Выход</a>
           </li>
         </ul>
 

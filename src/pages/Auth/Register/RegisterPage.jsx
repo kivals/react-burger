@@ -1,13 +1,29 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from "./Register.module.css";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import AuthWrapper from "../AuthWrapper";
+import {getProfile, register} from "../../../services/actions/auth";
+import {useDispatch, useSelector} from "react-redux";
 
 const RegisterPage = () => {
+  const dispatch = useDispatch();
+  let navigate = useNavigate();
+
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const { isAuth, errorMessage } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/', {replace: true});
+    }
+  }, [isAuth, navigate])
 
   const onChangeName = e => {
     setName(e.target.value)
@@ -21,8 +37,12 @@ const RegisterPage = () => {
     setPassword(e.target.value)
   }
 
+  const handleClick = async () => {
+    dispatch(register({name, email, password}));
+  }
+
   return (
-    <AuthWrapper title="Регистрация">
+    <AuthWrapper title="Регистрация" error={errorMessage}>
       <Input
         type={'text'}
         placeholder={'Имя'}
@@ -48,7 +68,13 @@ const RegisterPage = () => {
         extraClass="mb-6"
       />
 
-      <Button htmlType="button" type="primary" size="large" extraClass='mb-20'>
+      <Button
+        htmlType="button"
+        type="primary"
+        size="large"
+        extraClass='mb-20'
+        onClick={handleClick}
+      >
         Зарегистрироваться
       </Button>
 

@@ -1,12 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './Login.module.css';
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 import AuthWrapper from "../AuthWrapper";
+import {useDispatch, useSelector} from "react-redux";
+import {getProfile, login} from "../../../services/actions/auth";
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+  let navigate = useNavigate();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const { isAuth } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/', {replace: true});
+    }
+  }, [isAuth, navigate])
 
   const onChangeEmail = e => {
     setEmail(e.target.value)
@@ -14,6 +30,10 @@ const LoginPage = () => {
 
   const onChangePassword = e => {
     setPassword(e.target.value)
+  }
+
+  const handleClick = async () => {
+    dispatch(login({email, password}));
   }
 
   return (
@@ -33,7 +53,13 @@ const LoginPage = () => {
         extraClass="mb-6"
       />
 
-      <Button htmlType="button" type="primary" size="large" extraClass='mb-20'>
+      <Button
+        htmlType="button"
+        type="primary"
+        size="large"
+        extraClass='mb-20'
+        onClick={handleClick}
+      >
         Войти
       </Button>
 
