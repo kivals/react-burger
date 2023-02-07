@@ -1,25 +1,31 @@
-import React from 'react';
 import AuthWrapper from "../AuthWrapper";
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ResetPassword.module.css";
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {saveResetPassword} from "../../../services/actions/auth";
+import React from "react";
 
 const ResetPassword = () => {
+  const dispatch = useDispatch();
+
   const [password, setPassword] = React.useState('');
   const [code, setCode] = React.useState('');
 
-  const onChangePassword = e => {
-    setPassword(e.target.value)
+  const { isResetPasswordPage } = useSelector(state => state.auth);
+
+  const { errorMessage, successRestorePassword } = useSelector(state => state.auth);
+
+  const saveHandler = () => {
+    dispatch(saveResetPassword(code, password));
   }
 
-  const onChangeCode = e => {
-    setCode(e.target.value)
-  }
-
-  return (
+  return isResetPasswordPage ? (
     <AuthWrapper title="Восстановление пароля">
+      {successRestorePassword && <Navigate to="/login" replace />}
+      {errorMessage && <p className='ml-10 mb-5' style={{color: 'red'}}>Ошибка обновления данных. Попробуйте позже.</p>}
       <PasswordInput
-        onChange={onChangePassword}
+        onChange={(e) => setPassword(e.target.value)}
         value={password}
         name={'password'}
         extraClass="mb-6"
@@ -29,14 +35,20 @@ const ResetPassword = () => {
       <Input
         type={'text'}
         placeholder={'Введите код из письма'}
-        onChange={onChangeCode}
+        onChange={(e) => setCode(e.target.value)}
         value={code}
         name={'name'}
         size={'default'}
         extraClass="mb-6"
       />
       
-      <Button htmlType="button" type="primary" size="large" extraClass='mb-20'>
+      <Button
+        htmlType="button"
+        type="primary"
+        size="large"
+        extraClass='mb-20'
+        onClick={saveHandler}
+      >
         Сохранить
       </Button>
 
@@ -45,7 +57,9 @@ const ResetPassword = () => {
         <Link to='/login' className={styles.link}> Войти</Link>
       </p>
     </AuthWrapper>
-  );
+  ) : (
+    <Navigate to="/forgot-password" replace/>
+  )
 };
 
 export default ResetPassword;

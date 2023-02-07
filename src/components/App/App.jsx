@@ -26,6 +26,8 @@ function App() {
           <Route path="/profile" element={<ProtectedRoute element={<ProfilePage />}/>} />
           <Route path="/profile/orders" element={<ProfileOrders />} />
           <Route path="/profile/orders/:id" element={<ProfileOrderDetails />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/ingredient/:id" element={<IngredientDetailsPage />} />
         </Route>
       </Routes>

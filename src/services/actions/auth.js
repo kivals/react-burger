@@ -21,6 +21,15 @@ export const LOGOUT_REQUEST_SUCCESS = "LOGOUT_REQUEST_SUCCESS";
 export const LOGOUT_REQUEST_FAILED = "LOGOUT_REQUEST_FAILED";
 export const LOGOUT_CLEAR_PROFILE = "LOGOUT_CLEAR_PROFILE";
 
+export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
+export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
+export const RESET_PASSWORD_FAILED = "RESET_PASSWORD_FAILED";
+
+export const SAVE_RESET_PASSWORD_REQUEST = "SAVE_RESET_PASSWORD_REQUEST";
+export const SAVE_RESET_PASSWORD_SUCCESS = "SAVE_RESET_PASSWORD_SUCCESS";
+export const SAVE_RESET_PASSWORD_FAILED = "SAVE_RESET_PASSWORD_FAILED";
+export const CLEAR_RESTORE_FLAGS = "CLEAR_RESTORE_FLAGS";
+
 
 export const login = ({email, password}) => async (dispatch) => {
   dispatch({
@@ -138,6 +147,50 @@ export const logout = () => async (dispatch) => {
   } catch (e) {
     dispatch({
       type:  LOGOUT_REQUEST_FAILED,
+    });
+  }
+}
+
+export const resetPassword = (email) => async (dispatch) => {
+  dispatch({
+    type: RESET_PASSWORD_REQUEST
+  });
+  try {
+    const response = await authService.resetPassword(email);
+    if (response.data && response.data?.success) {
+      dispatch({
+        type: RESET_PASSWORD_SUCCESS,
+      });
+    }
+  } catch (e) {
+    dispatch({
+      type:  RESET_PASSWORD_FAILED,
+      value: e.response?.data?.message,
+    });
+    console.error(e.response?.data?.message);
+  }
+}
+
+export const saveResetPassword = (code, newPassword) => async (dispatch) => {
+  dispatch({
+    type: SAVE_RESET_PASSWORD_REQUEST
+  });
+  try {
+    const response = await authService.saveResetPassword(code, newPassword);
+    if (response.data && response.data?.success) {
+      dispatch({
+        type: SAVE_RESET_PASSWORD_SUCCESS,
+      });
+    }
+  } catch (e) {
+    dispatch({
+      type:  SAVE_RESET_PASSWORD_FAILED,
+      value: e.response?.data?.message,
+    });
+    console.error(e.response?.data?.message);
+  } finally {
+    dispatch({
+      type: CLEAR_PROFILE_SUCCESS,
     });
   }
 }

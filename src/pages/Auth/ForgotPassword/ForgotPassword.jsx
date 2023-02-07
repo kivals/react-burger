@@ -1,18 +1,29 @@
 import React from 'react';
 import AuthWrapper from "../AuthWrapper";
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 
 import styles from './ForgotPassword.module.css';
+import {useDispatch, useSelector} from "react-redux";
+import {resetPassword} from "../../../services/actions/auth";
 
 const ForgotPassword = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = React.useState('');
+
+  const { isResetPasswordPage } = useSelector(state => state.auth);
 
   const onChangeEmail = e => {
     setEmail(e.target.value)
   }
 
-  return (
+  const restoreHandler = () => {
+    dispatch(resetPassword(email));
+  }
+
+  return isResetPasswordPage ? (
+    <Navigate to="/reset-password" replace/>
+  ) : (
     <AuthWrapper title="Восстановление пароля">
       <EmailInput
         onChange={onChangeEmail}
@@ -22,7 +33,13 @@ const ForgotPassword = () => {
         extraClass='mb-6'
         placeholder={'Укажите E-mail'}
       />
-      <Button htmlType="button" type="primary" size="large" extraClass='mb-20'>
+      <Button
+        htmlType="button"
+        type="primary"
+        size="large"
+        extraClass='mb-20'
+        onClick={restoreHandler}
+      >
         Восстановить
       </Button>
 

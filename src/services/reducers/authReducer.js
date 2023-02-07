@@ -1,13 +1,25 @@
 import {
-  CLEAR_PROFILE_SUCCESS,
+  CLEAR_PROFILE_SUCCESS, CLEAR_RESTORE_FLAGS,
   LOGIN_REQUEST,
   LOGIN_REQUEST_FAILED,
-  LOGIN_REQUEST_SUCCESS, LOGOUT_CLEAR_PROFILE, LOGOUT_REQUEST, LOGOUT_REQUEST_FAILED, LOGOUT_REQUEST_SUCCESS,
+  LOGIN_REQUEST_SUCCESS,
+  LOGOUT_CLEAR_PROFILE,
+  LOGOUT_REQUEST,
+  LOGOUT_REQUEST_FAILED,
+  LOGOUT_REQUEST_SUCCESS,
   PROFILE_REQUEST,
   PROFILE_REQUEST_FAILED,
-  PROFILE_REQUEST_SUCCESS, PROFILE_UPDATE_FAILED, PROFILE_UPDATE_REQUEST, PROFILE_UPDATE_SUCCESS,
-  REGISTER_REQUEST, REGISTER_REQUEST_FAILED,
-  REGISTER_REQUEST_SUCCESS
+  PROFILE_REQUEST_SUCCESS,
+  PROFILE_UPDATE_FAILED,
+  PROFILE_UPDATE_REQUEST,
+  PROFILE_UPDATE_SUCCESS,
+  REGISTER_REQUEST,
+  REGISTER_REQUEST_FAILED,
+  REGISTER_REQUEST_SUCCESS,
+  RESET_PASSWORD_FAILED,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS, SAVE_RESET_PASSWORD_FAILED,
+  SAVE_RESET_PASSWORD_REQUEST, SAVE_RESET_PASSWORD_SUCCESS
 }
   from "../actions/auth";
 
@@ -17,6 +29,8 @@ const initialState = {
   isLoading: false,
   errorMessage: '',
   successUpdate: false,
+  successRestorePassword: false,
+  isResetPasswordPage: false,
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -152,6 +166,63 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         user: null
+      }
+    }
+    case RESET_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+        isResetPasswordPage: false,
+        errorMessage: '',
+      }
+    }
+    case RESET_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        isResetPasswordPage: true,
+        errorMessage: '',
+      }
+    }
+    case RESET_PASSWORD_FAILED: {
+      return {
+        ...state,
+        isLoading: false,
+        isResetPasswordPage: false,
+        errorMessage: action.value,
+      }
+    }
+    case SAVE_RESET_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+        errorMessage: '',
+        successRestorePassword: false,
+      }
+    }
+    case SAVE_RESET_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        errorMessage: '',
+        successRestorePassword: true,
+      }
+    }
+    case SAVE_RESET_PASSWORD_FAILED: {
+      return {
+        ...state,
+        isLoading: false,
+        errorMessage: action.value,
+        successRestorePassword: false,
+      }
+    }
+    case CLEAR_RESTORE_FLAGS: {
+      return {
+        ...state,
+        isLoading: false,
+        errorMessage: action.value,
+        successRestorePassword: false,
+        isResetPasswordPage: false,
       }
     }
     default: {

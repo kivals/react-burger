@@ -70,7 +70,7 @@ const LoginPage = () => {
 
       <p className={`${styles.text}`}>
         Забыли пароль?
-        <span> Восстановить пароль</span>
+        <Link to='/forgot-password' className={styles.link}> Восстановить пароль</Link>
       </p>
     </AuthWrapper>
   );
