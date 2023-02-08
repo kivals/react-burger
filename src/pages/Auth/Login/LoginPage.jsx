@@ -12,7 +12,7 @@ const LoginPage = () => {
   let navigate = useNavigate();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const { isAuth } = useSelector(state => state.auth);
+  const { isAuth, errorMessage } = useSelector(state => state.auth);
 
   useEffect(() => {
     dispatch(getProfile());

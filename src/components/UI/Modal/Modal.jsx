@@ -6,8 +6,11 @@ import AppIcon from "../AppIcon/AppIcon";
 import {iconColorTypes, iconTypes} from "../../../utils/icon-types";
 import PropTypes from "prop-types";
 import {ESC_KEY_CODE} from "../../../utils/consts";
+import {useNavigate} from "react-router-dom";
 
 const Modal = ({title, children, onClose}) => {
+    const navigate = useNavigate();
+
     React.useEffect(() => {
       const closeModalHandler = (e) => {
         if (e.keyCode === ESC_KEY_CODE) {
@@ -16,7 +19,7 @@ const Modal = ({title, children, onClose}) => {
       }
       window.addEventListener('keydown', closeModalHandler)
       return () => window.removeEventListener('keydown', closeModalHandler);
-    }, [onClose]);
+    }, [onClose, navigate]);
 
     return ReactDOM.createPortal(
         <>
@@ -37,7 +40,7 @@ const Modal = ({title, children, onClose}) => {
 
 Modal.propTypes = {
   children: PropTypes.element.isRequired,
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
   title: PropTypes.string,
 }
 
