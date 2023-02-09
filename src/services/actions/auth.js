@@ -15,6 +15,7 @@ export const PROFILE_UPDATE_REQUEST = "PROFILE_UPDATE_REQUEST";
 export const PROFILE_UPDATE_SUCCESS = "PROFILE_UPDATE_SUCCESS";
 export const PROFILE_UPDATE_FAILED = "PROFILE_UPDATE_FAILED";
 export const CLEAR_PROFILE_SUCCESS= "CLEAR_PROFILE_SUCCESS";
+export const AUTH_CHECK = "AUTH_CHECK";
 
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
 export const LOGOUT_REQUEST_SUCCESS = "LOGOUT_REQUEST_SUCCESS";
@@ -29,6 +30,8 @@ export const SAVE_RESET_PASSWORD_REQUEST = "SAVE_RESET_PASSWORD_REQUEST";
 export const SAVE_RESET_PASSWORD_SUCCESS = "SAVE_RESET_PASSWORD_SUCCESS";
 export const SAVE_RESET_PASSWORD_FAILED = "SAVE_RESET_PASSWORD_FAILED";
 export const CLEAR_RESTORE_FLAGS = "CLEAR_RESTORE_FLAGS";
+
+export const CLEAR_ERROR_MESSAGE = "CLEAR_ERROR_MESSAGE";
 
 
 export const login = ({email, password}) => async (dispatch) => {
@@ -77,7 +80,22 @@ export const register = ({name, email, password}) => async (dispatch) => {
   }
 }
 
-export const getProfile = () => async (dispatch) => {
+export const checkUserAuth = () => (dispatch) => {
+  if (localStorage.getItem('token')) {
+    dispatch(
+      getProfile(() => {
+        dispatch({ type: AUTH_CHECK });
+      })
+    );
+  } else {
+    dispatch({ type: AUTH_CHECK });
+    dispatch({
+      type:  PROFILE_REQUEST_FAILED,
+    });
+  }
+};
+
+const getProfile = (afterCallback) => async (dispatch) => {
   dispatch({
     type: PROFILE_REQUEST
   });
@@ -92,9 +110,9 @@ export const getProfile = () => async (dispatch) => {
   } catch (e) {
     dispatch({
       type:  PROFILE_REQUEST_FAILED,
-      value: e.response?.data?.message,
     });
-    console.error(e.response?.data?.message);
+  } finally {
+    afterCallback();
   }
 }
 

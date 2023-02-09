@@ -9,20 +9,28 @@ import {useDispatch, useSelector} from "react-redux";
 import {CLEAR_ORDER, getOrderData} from "../../../services/actions/order";
 import Loader from "../../UI/AppLoader/Loader";
 import {calcTotalPrice} from "../../../utils/utils";
+import {useNavigate} from "react-router-dom";
 
 const ConstructorOrder = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { ingredients, bun = {} } = useSelector(state => state.burgerConstructor);
+    const { isAuth} = useSelector(state => state.auth);
     const { orderInfo } = useSelector(state => state.order);
 
     const totalPrice = useMemo(() => calcTotalPrice(bun, ingredients), [ingredients, bun]);
 
     const makeOrder = () => {
-      if (ingredients.length === 0 || !bun._id) return;
-      const body = {
-        ingredients: [...ingredients.map(ing => ing._id), bun._id],
+      console.log('make')
+      if (!isAuth) {
+        return navigate('/login');
+      } else {
+        if (ingredients.length === 0 || !bun._id) return;
+        const body = {
+          ingredients: [...ingredients.map(ing => ing._id), bun._id],
+        }
+        dispatch(getOrderData(body));
       }
-      dispatch(getOrderData(body));
     };
 
     const onClose = () => {

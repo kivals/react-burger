@@ -1,4 +1,5 @@
 import {
+  AUTH_CHECK, CLEAR_ERROR_MESSAGE,
   CLEAR_PROFILE_SUCCESS, CLEAR_RESTORE_FLAGS,
   LOGIN_REQUEST,
   LOGIN_REQUEST_FAILED,
@@ -26,6 +27,7 @@ import {
 const initialState = {
   user: null,
   isAuth: false,
+  isAuthChecked: false,
   isLoading: false,
   errorMessage: '',
   successUpdate: false,
@@ -82,8 +84,13 @@ export const authReducer = (state = initialState, action) => {
         errorMessage: action.value,
       }
     }
+    case AUTH_CHECK: {
+      return {
+        ...state,
+        isAuthChecked: true
+      };
+    }
     case PROFILE_REQUEST: {
-      console.log(PROFILE_REQUEST);
       return {
         ...state,
         isLoading: true,
@@ -223,6 +230,12 @@ export const authReducer = (state = initialState, action) => {
         errorMessage: action.value,
         successRestorePassword: false,
         isResetPasswordPage: false,
+      }
+    }
+    case CLEAR_ERROR_MESSAGE: {
+      return {
+        ...state,
+        errorMessage: "",
       }
     }
     default: {

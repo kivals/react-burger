@@ -5,7 +5,6 @@ import { Outlet } from "react-router-dom";
 import styles from "./Layout.module.css";
 
 const Layout = () => {
-  console.log('LAYOUT');
   return (
     <div className={styles.wrapper}>
       <header className={styles.header}>

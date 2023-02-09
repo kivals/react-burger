@@ -3,16 +3,21 @@ import AppIcon from "../AppIcon/AppIcon";
 import styles from './HeaderLink.module.css';
 import {iconColorTypes, iconTypes} from "../../../utils/icon-types";
 import PropTypes from "prop-types";
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 const  HeaderLink = ({icon, type = iconColorTypes.PRIMARY, children, path }) => {
     const textStyles = `${styles.text} ${type===iconColorTypes.SECONDARY ? styles.nonActive : ''}`;
 
     return (
-        <Link to={path} className={styles.link}>
+        <NavLink
+          to={path}
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.link
+          }
+        >
             <AppIcon icon={icon} type={type} />
             <span className={textStyles}>{children}</span>
-        </Link>
+        </NavLink>
     );
 };
 

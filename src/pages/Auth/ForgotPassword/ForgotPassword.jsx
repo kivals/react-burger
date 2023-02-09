@@ -1,17 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import AuthWrapper from "../AuthWrapper";
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, Navigate} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 
 import styles from './ForgotPassword.module.css';
 import {useDispatch, useSelector} from "react-redux";
-import {resetPassword} from "../../../services/actions/auth";
+import {checkUserAuth, resetPassword} from "../../../services/actions/auth";
 
 const ForgotPassword = () => {
   const dispatch = useDispatch();
+  let navigate = useNavigate();
   const [email, setEmail] = React.useState('');
 
-  const { isResetPasswordPage } = useSelector(state => state.auth);
+  const {isAuth, isResetPasswordPage } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    dispatch(checkUserAuth());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/', {replace: true});
+    }
+  }, [isAuth, navigate])
 
   const onChangeEmail = e => {
     setEmail(e.target.value)

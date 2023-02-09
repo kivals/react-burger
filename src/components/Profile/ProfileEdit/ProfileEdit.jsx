@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
 import {updateProfile} from "../../../services/actions/auth";
+import Loader from "../../UI/AppLoader/Loader";
 
 const ProfileEdit = () => {
   const dispatch = useDispatch();
@@ -78,10 +79,10 @@ const ProfileEdit = () => {
     setIsUpdate(false);
   }
 
-  return isLoading ? (<h1> LOADING </h1>) : (
+  return isLoading ? (<Loader size="large" /> ) : (
     <>
       {successUpdate && <p className='ml-10 mb-5' style={{color: 'green'}}>Данные успешно обновлены</p>}
-      {errorMessage ?? <p className='ml-10 mb-5' style={{color: 'red'}}>Ошибка обновления данных. Попробуйте позже.</p>}
+      {errorMessage && <p className='ml-10 mb-5' style={{color: 'red'}}>Ошибка обновления данных. Попробуйте позже.</p>}
       <Input
         type={'text'}
         placeholder={'Имя'}

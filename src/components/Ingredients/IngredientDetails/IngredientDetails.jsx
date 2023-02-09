@@ -12,11 +12,10 @@ const IngredientDetails = () => {
   const { ingredients, isLoading, hasError } = useSelector(state => state.ingredients);
 
   useEffect(() => {
-    console.log('IngredientDetails useEFFECT');
     if (!ingredients.length) {
       dispatch(getIngredients());
     }
-  }, [dispatch]);
+  }, [dispatch, ingredients]);
 
   const details = useMemo(() => {
     return ingredients.find(ing => ing._id === id);

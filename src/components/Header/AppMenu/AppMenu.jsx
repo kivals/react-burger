@@ -11,7 +11,7 @@ const AppMenu = () => {
                     <HeaderLink icon={iconTypes.BURGER} type={iconColorTypes.PRIMARY} path='/'>Конструктор</HeaderLink>
                 </li>
                 <li className={styles.menuItem}>
-                    <HeaderLink icon={iconTypes.LIST} type={iconColorTypes.SECONDARY} path='/'>Лента заказов</HeaderLink>
+                    <HeaderLink icon={iconTypes.LIST} type={iconColorTypes.SECONDARY} path='/list'>Лента заказов</HeaderLink>
                 </li>
             </ul>
         </nav>

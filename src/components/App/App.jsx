@@ -12,20 +12,20 @@ import ResetPassword from "../../pages/Auth/ResetPassword/ResetPassword";
 import ProtectedRoute from "../ProtectedRoute";
 import IngredientDetails from "../Ingredients/IngredientDetails/IngredientDetails";
 import Modal from "../UI/Modal/Modal";
+import OrderList from "../../pages/OrderList/OrderList";
 
 function App() {
-  console.log('APP');
   const location = useLocation();
   const navigate = useNavigate();
 
   const background = location.state && location.state.background;
-  console.log(background);
 
   return (
     <div>
       <Routes location={background || location}>
         <Route path="/" element={<Layout />} >
           <Route path="/" element={<Home />} />
+          <Route path="/list" element={<OrderList />} />
           <Route path="/ingredients/:id" element={ <IngredientDetails />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

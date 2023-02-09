@@ -1,28 +1,33 @@
-import React, {useEffect, useState} from 'react';
-import { Navigate } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {Navigate, useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
-import {getProfile} from "../services/actions/auth";
 import Loader from "./UI/AppLoader/Loader";
+import {checkUserAuth} from "../services/actions/auth";
+import PropTypes from "prop-types";
 
 const ProtectedRoute = ({ element }) => {
   const dispatch = useDispatch();
-  const { isAuth, errorMessage } = useSelector(state => state.auth);
-  const [isUserLoaded, setUserLoaded] = useState(false);
+  const location = useLocation();
+  const { user, isAuthChecked } = useSelector(state => state.auth);
 
-  useEffect( () => {
-    if (!isAuth) {
-      dispatch(getProfile());
-    } else {
-      setUserLoaded(true);
-    }
+  useEffect(() => {
+    dispatch(checkUserAuth());
+  }, [dispatch]);
 
-  }, [isAuth, dispatch]);
-
-  if (!isUserLoaded && !errorMessage) {
+  if (!isAuthChecked) {
     return <Loader size='large' />
-  } else {
-    return !errorMessage ? element : <Navigate to="/login" replace/>;
   }
+
+  if (!user) {
+    return <Navigate to="/login" state={ { from: location } }  replace/>;
+  }
+
+  return <>{element}</>;
 };
+
+ProtectedRoute.propType = {
+  element: PropTypes.node.isRequired
+}
+
 
 export default ProtectedRoute;

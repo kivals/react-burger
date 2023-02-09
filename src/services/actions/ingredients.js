@@ -5,7 +5,6 @@ export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
 
 export const getIngredients = () => (dispatch) => {
-  console.log('getIngredients')
   dispatch({
     type: GET_INGREDIENTS_REQUEST
   });

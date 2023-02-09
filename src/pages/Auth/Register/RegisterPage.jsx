@@ -3,7 +3,7 @@ import styles from "./Register.module.css";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useNavigate} from "react-router-dom";
 import AuthWrapper from "../AuthWrapper";
-import {getProfile, register} from "../../../services/actions/auth";
+import {checkUserAuth, register} from "../../../services/actions/auth";
 import {useDispatch, useSelector} from "react-redux";
 
 const RegisterPage = () => {
@@ -16,7 +16,7 @@ const RegisterPage = () => {
   const { isAuth, errorMessage } = useSelector(state => state.auth);
 
   useEffect(() => {
-    dispatch(getProfile());
+    dispatch(checkUserAuth());
   }, [dispatch]);
 
   useEffect(() => {
