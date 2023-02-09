@@ -1,0 +1,19 @@
+.wrapper {
+    height: 100vh;
+}
+
+.header {
+    height: 88px;
+    background: #1C1C21;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-width: 1240px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    align-items: center;
+}

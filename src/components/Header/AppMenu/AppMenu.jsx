@@ -8,10 +8,10 @@ const AppMenu = () => {
         <nav title="Главное меню">
             <ul title="Главное меню" className={styles.list}>
                 <li className={styles.menuItem}>
-                    <HeaderLink icon={iconTypes.BURGER} type={iconColorTypes.PRIMARY}>Конструктор</HeaderLink>
+                    <HeaderLink icon={iconTypes.BURGER} type={iconColorTypes.PRIMARY} path='/'>Конструктор</HeaderLink>
                 </li>
                 <li className={styles.menuItem}>
-                    <HeaderLink icon={iconTypes.LIST} type={iconColorTypes.SECONDARY}>Лента заказов</HeaderLink>
+                    <HeaderLink icon={iconTypes.LIST} type={iconColorTypes.SECONDARY} path='/list'>Лента заказов</HeaderLink>
                 </li>
             </ul>
         </nav>
