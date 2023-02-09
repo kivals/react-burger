@@ -16,12 +16,13 @@ const ResetPassword = () => {
 
   const { errorMessage, successRestorePassword } = useSelector(state => state.auth);
 
-  const saveHandler = () => {
+  const saveHandler = (e) => {
+    e.preventDefault();
     dispatch(saveResetPassword(code, password));
   }
 
   return isResetPasswordPage ? (
-    <AuthWrapper title="Восстановление пароля">
+    <AuthWrapper title="Восстановление пароля" onSubmitHandler={saveHandler}>
       {successRestorePassword && <Navigate to="/login" replace />}
       {errorMessage && <p className='ml-10 mb-5' style={{color: 'red'}}>Ошибка обновления данных. Попробуйте позже.</p>}
       <PasswordInput
@@ -43,11 +44,10 @@ const ResetPassword = () => {
       />
       
       <Button
-        htmlType="button"
+        htmlType="submit"
         type="primary"
         size="large"
         extraClass='mb-20'
-        onClick={saveHandler}
       >
         Сохранить
       </Button>

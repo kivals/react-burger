@@ -18,24 +18,24 @@ const ForgotPassword = () => {
     dispatch(checkUserAuth());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (isAuth) {
-      navigate('/', {replace: true});
-    }
-  }, [isAuth, navigate])
-
   const onChangeEmail = e => {
     setEmail(e.target.value)
   }
 
-  const restoreHandler = () => {
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
     dispatch(resetPassword(email));
+  }
+
+  if (isAuth) {
+    navigate('/', {replace: true});
+    return null;
   }
 
   return isResetPasswordPage ? (
     <Navigate to="/reset-password" replace/>
   ) : (
-    <AuthWrapper title="Восстановление пароля">
+    <AuthWrapper title="Восстановление пароля" onSubmitHandler={onSubmitHandler}>
       <EmailInput
         onChange={onChangeEmail}
         value={email}
@@ -45,11 +45,10 @@ const ForgotPassword = () => {
         placeholder={'Укажите E-mail'}
       />
       <Button
-        htmlType="button"
+        htmlType="submit"
         type="primary"
         size="large"
         extraClass='mb-20'
-        onClick={restoreHandler}
       >
         Восстановить
       </Button>

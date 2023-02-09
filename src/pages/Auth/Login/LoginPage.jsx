@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const LoginPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const { isAuth, errorMessage } = useSelector(state => state.auth);
@@ -20,12 +20,6 @@ const LoginPage = () => {
     dispatch(checkUserAuth());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (isAuth) {
-      navigate(from || '/', {replace: true});
-    }
-  }, [isAuth, navigate, from])
-
   const onChangeEmail = e => {
     setEmail(e.target.value)
   }
@@ -34,14 +28,20 @@ const LoginPage = () => {
     setPassword(e.target.value)
   }
 
-  const handleClick = async () => {
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
     if (email && password && password.length >= 6) {
       dispatch(login({email, password}));
     }
   }
 
+  if (isAuth) {
+    navigate(from || '/', {replace: true});
+    return null;
+  }
+
   return (
-    <AuthWrapper title='Вход' error={errorMessage}>
+    <AuthWrapper title='Вход' error={errorMessage} onSubmitHandler={onSubmitHandler}>
       <EmailInput
         onChange={onChangeEmail}
         value={email}
@@ -58,11 +58,10 @@ const LoginPage = () => {
       />
 
       <Button
-        htmlType="button"
+        htmlType="submit"
         type="primary"
         size="large"
         extraClass='mb-20'
-        onClick={handleClick}
       >
         Войти
       </Button>

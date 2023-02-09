@@ -21,7 +21,7 @@ const ProfilePage = () => {
             <Link to="/profile">Профиль</Link>
           </li>
           <li className={`${styles.menuItem} pt-3 pb-3`}>
-            <Link to="/">История заказов</Link>
+            <Link to="/profile/orders">История заказов</Link>
           </li>
           <li className={`${styles.menuItem} pt-3 pb-3`}>
             <a onClick={exitHandler} href="/">Выход</a>

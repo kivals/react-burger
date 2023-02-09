@@ -2,13 +2,13 @@ import React from 'react';
 import styles from "./AuthWrapper.module.css";
 import PropTypes from "prop-types";
 
-const AuthWrapper = ({title, children, error}) => {
+const AuthWrapper = ({title, children, error, onSubmitHandler}) => {
   return (
-    <div className={styles.authBody}>
+    <form onSubmit={onSubmitHandler} className={styles.authBody}>
       <h1 className='mb-3'>{title}</h1>
       {error && <p className={`${styles.error} mb-3`}>{error}</p>}
       {children}
-    </div>
+    </form>
   );
 };
 

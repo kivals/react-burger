@@ -19,12 +19,6 @@ const RegisterPage = () => {
     dispatch(checkUserAuth());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (isAuth) {
-      navigate('/', {replace: true});
-    }
-  }, [isAuth, navigate])
-
   const onChangeName = e => {
     setName(e.target.value)
   }
@@ -37,12 +31,18 @@ const RegisterPage = () => {
     setPassword(e.target.value)
   }
 
-  const handleClick = async () => {
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
     dispatch(register({name, email, password}));
   }
 
+  if (isAuth) {
+    navigate('/', {replace: true});
+    return null;
+  }
+
   return (
-    <AuthWrapper title="Регистрация" error={errorMessage}>
+    <AuthWrapper title="Регистрация" error={errorMessage} onSubmitHandler={onSubmitHandler}>
       <Input
         type={'text'}
         placeholder={'Имя'}
@@ -69,11 +69,10 @@ const RegisterPage = () => {
       />
 
       <Button
-        htmlType="button"
+        htmlType="submit"
         type="primary"
         size="large"
         extraClass='mb-20'
-        onClick={handleClick}
       >
         Зарегистрироваться
       </Button>
