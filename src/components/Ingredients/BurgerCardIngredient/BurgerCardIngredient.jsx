@@ -8,8 +8,10 @@ import {iconColorTypes} from "../../../utils/icon-types";
 import {useSelector} from "react-redux";
 import {BUN_INGREDIENT} from "../../../utils/consts";
 import {useDrag} from "react-dnd";
+import {Link, useLocation} from "react-router-dom";
 
 const BurgerCardIngredient = ({data, onClick}) => {
+    const location = useLocation();
     const { ingredients, bun } = useSelector(state => state.burgerConstructor);
     const [, dragRef] = useDrag({
       type: "ingredient",
@@ -22,7 +24,13 @@ const BurgerCardIngredient = ({data, onClick}) => {
     }, [data, ingredients, bun]);
 
     return (
-        <article className={styles.card} onClick={onClick} ref={dragRef} >
+      <Link
+        ref={dragRef}
+        key={data._id}
+        to={`ingredients/${data._id}`}
+        state={{ background: location }}
+      >
+        <article className={styles.card} onClick={onClick}  >
             <img src={data.image} width="240" height="120" className={styles.image} alt={data.name}/>
             <div className={styles.priceBody}>
                 <span className={styles.priceNumber}>{data.price}</span>
@@ -31,6 +39,7 @@ const BurgerCardIngredient = ({data, onClick}) => {
             <p className={styles.name}>{data.name}</p>
             {count > 0 && <Counter count={count} extraClass={styles.counter} />}
         </article>
+      </Link>
     );
 };
 

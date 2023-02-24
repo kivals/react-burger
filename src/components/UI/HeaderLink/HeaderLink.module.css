@@ -5,15 +5,26 @@
     display: flex;
     align-items: center;
     padding: 20px;
+    color: #8585AD;
+}
+
+.link svg {
+    fill: #8585AD;
 }
 
 .text {
-    color: textColor;
     margin-left: 8px;
     font-size: 16px;
     line-height: 24px;
 }
 
-.nonActive {
-    color: #8585AD;
+.active {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    color: #f2f2f3;
+}
+
+.active svg {
+    fill: #f2f2f3;
 }
