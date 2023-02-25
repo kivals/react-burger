@@ -12,10 +12,11 @@ const AppMain = () => {
 
     const dispatch = useDispatch();
 
-    const { ingredients, isLoading, hasError } = useSelector(state => state.ingredients);
+    const { ingredients, isLoading, hasError } = useSelector((state: any) => state.ingredients);
 
     useEffect(
       () => {
+          // @ts-ignore
           dispatch(getIngredients());
       },
       [dispatch]
