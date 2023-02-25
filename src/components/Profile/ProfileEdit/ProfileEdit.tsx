@@ -6,18 +6,18 @@ import Loader from "../../UI/AppLoader/Loader";
 
 const ProfileEdit = () => {
   const dispatch = useDispatch();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isUpdate, setIsUpdate] = useState(false);
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
-  const [isEditNameInput, setIsEditNameInput] = useState(false);
-  const [isEditEmailInput, setIsEditEmailInput] = useState(false);
-  const [isEditPassInput, setIsEditPassInput] = useState(false);
+  const [isEditNameInput, setIsEditNameInput] = useState<boolean>(false);
+  const [isEditEmailInput, setIsEditEmailInput] = useState<boolean>(false);
+  const [isEditPassInput, setIsEditPassInput] = useState<boolean>(false);
 
-  const nameRef = useRef();
+  const nameRef = useRef<HTMLInputElement>(null);
 
-  const { user, isLoading, errorMessage, successUpdate } = useSelector(state => state.auth);
+  const { user, isLoading, errorMessage, successUpdate } = useSelector((state: any) => state.auth);
 
   useEffect(() => {
     if (user) {
@@ -27,7 +27,7 @@ const ProfileEdit = () => {
   }, [user, setName, setEmail]);
 
   useEffect(() => {
-    if (isEditNameInput === true) {
+    if (isEditNameInput && nameRef && nameRef.current) {
       nameRef.current.focus();
     }
   }, [isEditNameInput]);
@@ -37,32 +37,22 @@ const ProfileEdit = () => {
     setIsEditNameInput(true);
     setIsEditEmailInput(false);
     setIsEditPassInput(false);
-    nameRef.current.focus();
+    if (nameRef && nameRef.current) {
+      nameRef.current.focus();
+    }
   }
 
-  const emailClickHandler = () => {
-    setIsEditNameInput(false);
-    setIsEditEmailInput(true);
-    setIsEditPassInput(false);
-  }
-
-  const passClickHandler = () => {
-    setIsEditNameInput(false);
-    setIsEditEmailInput(false);
-    setIsEditPassInput(true);
-  }
-
-  const inputNameChangeHandler = (e) => {
+  const inputNameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
     setIsUpdate(true);
   }
 
-  const inputEmailChangeHandler = (e) => {
+  const inputEmailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     setIsUpdate(true);
   }
 
-  const inputPassChangeHandler = (e) => {
+  const inputPassChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     setIsUpdate(true);
   }
@@ -75,6 +65,7 @@ const ProfileEdit = () => {
   }
 
   const saveHandler = () => {
+    // @ts-ignore
     dispatch(updateProfile(name, email, password));
     setIsUpdate(false);
   }
@@ -104,7 +95,6 @@ const ProfileEdit = () => {
         name={'email'}
         isIcon={true}
         extraClass='mb-6'
-        onIconClick={emailClickHandler}
         disabled={!isEditEmailInput}
       />
 
@@ -112,7 +102,6 @@ const ProfileEdit = () => {
         onChange={inputPassChangeHandler}
         value={password}
         icon={'EditIcon'}
-        onIconClick={passClickHandler}
         name={'Пароль'}
         extraClass="mb-6"
         disabled={!isEditPassInput}
