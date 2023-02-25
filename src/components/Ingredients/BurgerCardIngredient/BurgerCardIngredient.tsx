@@ -15,7 +15,7 @@ interface IBurgerCardIngredientProps {
 
 const BurgerCardIngredient: FC<IBurgerCardIngredientProps> = ({data, onClick}) => {
     const location = useLocation();
-    const { ingredients, bun } = useSelector((state: IState )=> state.burgerConstructor);
+    const { ingredients, bun } = useSelector((state: IState ) => state.burgerConstructor);
     const [, dragRef] = useDrag({
       type: "ingredient",
       item: data,

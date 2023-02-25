@@ -1,12 +1,18 @@
-import React from 'react';
+import React, {FC} from 'react';
 import EmptyConstructorElement from "../BurgerConstructor/EmptyConstructorElement";
 import {BUN_INGREDIENT, BUN_TOP} from "../../../utils/consts";
 import styles from "../BurgerConstructor/BurgerConstructor.module.css";
 import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import {ingredientPropTypes} from "../../../utils/props";
+import {IBunIngredient, TBunTypes, TIngredientTypes} from "../../../utils/types";
 
-const ConstructorBunCard = ({bun, isHover, dragIngredientType, type}) => {
+interface IConstructorBunCardProps {
+  bun: IBunIngredient,
+  isHover: boolean,
+  dragIngredientType: TIngredientTypes,
+  type: TBunTypes
+}
+
+const ConstructorBunCard: FC<IConstructorBunCardProps> = ({bun, isHover, dragIngredientType, type}) => {
   const extraText = type === BUN_TOP ? '(верх)' : '(низ)';
   return (
     <>
@@ -27,12 +33,5 @@ const ConstructorBunCard = ({bun, isHover, dragIngredientType, type}) => {
     </>
   );
 };
-
-ConstructorBunCard.propType = {
-  bun: ingredientPropTypes,
-  isHover: PropTypes.bool.isRequired,
-  dragIngredientType: PropTypes.string,
-  type: PropTypes.string,
-}
 
 export default ConstructorBunCard;

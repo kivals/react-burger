@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import ConstructorOrder from "../ContructorOrder/ContructorOrder";
 import styles from './BurgerConstructor.module.css';
 import {useDispatch, useSelector} from "react-redux";
@@ -8,18 +8,20 @@ import ConstructorCard from "../ConstructorCard/ConstructorCard";
 import EmptyConstructorElement from "./EmptyConstructorElement";
 import {BUN_BOTTOM, BUN_INGREDIENT, BUN_TOP} from "../../../utils/consts";
 import ConstructorBunCard from "../ConstructorBunCard/ConstructorBunCard";
+import {IIngredient, IState} from "../../../utils/types";
 
-const BurgerConstructor = () => {
+const BurgerConstructor: FC = () => {
     const dispatch = useDispatch();
-    const { ingredients, bun } = useSelector(state => state.burgerConstructor);
+    const { ingredients, bun } = useSelector((state: IState) => state.burgerConstructor);
     const [{isHover, dragIngredient}, dropTarget] = useDrop({
       accept: "ingredient",
       collect: monitor => ({
         isHover: monitor.isOver(),
-        dragIngredient: monitor.getItem(),
+        dragIngredient: monitor.getItem<IIngredient>(),
       }),
       drop(ingredient) {
-        dispatch(addIngredientToConstructor(ingredient))
+        // @ts-ignore
+          dispatch(addIngredientToConstructor(ingredient))
       },
     });
 

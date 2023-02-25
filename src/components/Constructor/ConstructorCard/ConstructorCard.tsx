@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import styles from "./ConstructorCard.module.css";
 import AppIcon from "../../UI/AppIcon/AppIcon";
-import {iconColorTypes, iconTypes} from "../../../utils/icon-types";
 import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import {
   DELETE_CONSTRUCTOR_INGREDIENT,
@@ -9,9 +8,13 @@ import {
 } from "../../../services/actions/burgerConstructor";
 import {useDispatch} from "react-redux";
 import {useDrag, useDrop} from "react-dnd";
-import {ingredientPropTypes} from "../../../utils/props";
+import {IIngredient} from "../../../utils/types";
 
-const ConstructorCard = ({ingredient}) => {
+interface IConstructorCardProps {
+  ingredient: IIngredient
+}
+
+const ConstructorCard: FC<IConstructorCardProps> = ({ingredient}) => {
   const dispatch = useDispatch();
   const [{isDrag}, dragRef] = useDrag({
     type: "constructor",
@@ -21,9 +24,9 @@ const ConstructorCard = ({ingredient}) => {
     })
   });
 
-  const [{isHover,dragIngredient}, dropTarget] = useDrop({
+  const [{isHover, dragIngredient}, dropTarget] = useDrop({
     accept: "constructor",
-    drop(dragIngredient) {
+    drop(dragIngredient: IIngredient) {
       if (dragIngredient.key === ingredient.key) return;
 
       dispatch({
@@ -46,7 +49,7 @@ const ConstructorCard = ({ingredient}) => {
     }
   }, [isHover,dispatch, dragIngredient, ingredient])
 
-  const handleDelete = (deletedKey) => () => {
+  const handleDelete = (deletedKey: string) => (): void => {
     dispatch({
       type: DELETE_CONSTRUCTOR_INGREDIENT,
       value: deletedKey,
@@ -56,7 +59,7 @@ const ConstructorCard = ({ingredient}) => {
   return (
     <div ref={dropTarget}>
       <div draggable='true' className={`${isDrag && styles.hidden } ${styles.card}`} ref={dragRef}>
-        <AppIcon icon={iconTypes.DRAG} type={iconColorTypes.PRIMARY}/>
+        <AppIcon icon='drag' type='primary'/>
         <ConstructorElement
           isLocked={false}
           text={ingredient.name}
@@ -69,9 +72,5 @@ const ConstructorCard = ({ingredient}) => {
 
   );
 };
-
-ConstructorCard.propTypes = {
-  ingredient: ingredientPropTypes.isRequired
-}
 
 export default ConstructorCard;

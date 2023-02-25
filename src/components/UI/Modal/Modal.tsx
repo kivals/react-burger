@@ -7,7 +7,7 @@ import {ESC_KEY_CODE} from "../../../utils/consts";
 import {useNavigate} from "react-router-dom";
 
 interface IModalProps {
-    title: string,
+    title?: string,
     children: React.ReactNode,
     onClose: () => void
 }
