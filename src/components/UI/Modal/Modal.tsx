@@ -1,19 +1,27 @@
-import React from 'react';
+import React, {FC} from 'react';
 import ReactDOM from "react-dom";
 import ModalOverlay from "./ModalOverlay";
 import styles from "./Modal.module.css";
 import AppIcon from "../AppIcon/AppIcon";
-import {iconColorTypes, iconTypes} from "../../../utils/icon-types";
-import PropTypes from "prop-types";
 import {ESC_KEY_CODE} from "../../../utils/consts";
 import {useNavigate} from "react-router-dom";
 
-const Modal = ({title, children, onClose}) => {
+interface IModalProps {
+    title: string,
+    children: React.ReactNode,
+    onClose: () => void
+}
+
+const Modal: FC<IModalProps> = ({
+    title,
+    children,
+    onClose
+}) => {
     const navigate = useNavigate();
 
     React.useEffect(() => {
-      const closeModalHandler = (e) => {
-        if (e.keyCode === ESC_KEY_CODE) {
+      const closeModalHandler = (e: KeyboardEvent) => {
+        if (e.key === ESC_KEY_CODE) {
           onClose();
         }
       }
@@ -27,7 +35,7 @@ const Modal = ({title, children, onClose}) => {
             <div className={styles.header}>
               <h2 className={styles.title}>{title}</h2>
               <button className={styles.button}>
-                <AppIcon icon={iconTypes.CLOSE} type={iconColorTypes.PRIMARY} onClick={onClose} />
+                <AppIcon icon='close' type='primary' onClick={onClose} />
               </button>
             </div>
             <div className={styles.content}>{children}</div>
@@ -37,11 +45,5 @@ const Modal = ({title, children, onClose}) => {
       document.body
     );
 };
-
-Modal.propTypes = {
-  children: PropTypes.element.isRequired,
-  onClose: PropTypes.func,
-  title: PropTypes.string,
-}
 
 export default Modal;

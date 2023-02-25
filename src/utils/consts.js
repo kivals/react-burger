@@ -5,6 +5,6 @@ export const API_AUTH_URL = 'https://norma.nomoreparties.space/api/auth';
 export const BUN_INGREDIENT = 'bun';
 export const SAUCE_INGREDIENT = 'sauce';
 export const MAIN_INGREDIENT = 'main';
-export const ESC_KEY_CODE = 27;
+export const ESC_KEY_CODE = 'Escape';
 export const BUN_TOP = 'top';
 export const BUN_BOTTOM = 'bottom';
