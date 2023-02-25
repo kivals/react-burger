@@ -4,15 +4,16 @@ import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getIngredients} from "../../../services/actions/ingredients";
 import Loader from "../../UI/AppLoader/Loader";
+import {IState} from "../../../utils/types";
 
 const IngredientDetails = () => {
-  console.log('IngredientDetails');
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { ingredients, isLoading, hasError } = useSelector(state => state.ingredients);
+  const { ingredients, isLoading, hasError } = useSelector((state: IState) => state.ingredients);
 
   useEffect(() => {
     if (!ingredients.length) {
+      // @ts-ignore
       dispatch(getIngredients());
     }
   }, [dispatch, ingredients]);
@@ -55,7 +56,6 @@ const IngredientDetails = () => {
       </div>
     )
   }
-
 };
 
 export default IngredientDetails;

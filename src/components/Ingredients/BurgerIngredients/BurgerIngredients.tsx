@@ -1,26 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import BurgerTabs from "../BurgerTabs/BurgerTabs";
 import BurgerCardIngredient from "../BurgerCardIngredient/BurgerCardIngredient";
 import burgerIngredientsStyles from './BurgerIngredients.module.css';
-import PropTypes from "prop-types";
-import {ingredientPropTypes} from "../../../utils/props";
 import {BUN_INGREDIENT, MAIN_INGREDIENT, SAUCE_INGREDIENT} from "../../../utils/consts";
 import {useInView} from "react-intersection-observer";
 import {useNavigate} from "react-router-dom";
+import {IIngredient, TIngredientTypes} from "../../../utils/types";
 
 const observerOptions = {
     threshold: 0.1,
     root: document.getElementById('scroll'),
 }
 
-const BurgerIngredients = ({data}) => {
+interface IBurgerIngredientsProps {
+    data: IIngredient[]
+}
+
+const BurgerIngredients: FC<IBurgerIngredientsProps> = ({data}) => {
     const navigate = useNavigate();
 
-    const [currentTab, setCurrentTab] = useState(BUN_INGREDIENT);
+    const [currentTab, setCurrentTab] = useState<TIngredientTypes>(BUN_INGREDIENT);
 
-    const { ref: bunRef, inView: bunRefVisible } = useInView(observerOptions);
-    const { ref: sauceRef, inView: sauceRefVisible } = useInView(observerOptions);
-    const { ref: mainRef, inView: mainRefVisible } = useInView(observerOptions);
+    const { ref: bunRef, inView: bunRefVisible, entry: bunEntry } = useInView(observerOptions);
+    const { ref: sauceRef, inView: sauceRefVisible, entry: sauceEntry } = useInView(observerOptions);
+    const { ref: mainRef, inView: mainRefVisible, entry: mainEntry } = useInView(observerOptions);
 
     useEffect(() => {
         if (bunRefVisible) {
@@ -37,9 +40,21 @@ const BurgerIngredients = ({data}) => {
     const sauces = React.useMemo(() => data.filter( ing => ing.type === SAUCE_INGREDIENT), [data]);
     const filling = React.useMemo(() => data.filter( ing => ing.type === MAIN_INGREDIENT), [data]);
 
+    const tabHandler = (tabName: TIngredientTypes) => {
+        if (tabName === BUN_INGREDIENT) {
+            bunEntry?.target.scrollIntoView();
+        }
+        if (tabName === SAUCE_INGREDIENT) {
+            sauceEntry?.target.scrollIntoView();
+        }
+        if (tabName === MAIN_INGREDIENT) {
+            mainEntry?.target.scrollIntoView();
+        }
+    }
+
     return (
         <>
-            <BurgerTabs current={currentTab} />
+            <BurgerTabs current={currentTab} onClick={tabHandler}/>
             <div id="scroll" className={burgerIngredientsStyles.scrollBody}>
                 <section ref={bunRef}>
                     <h2 className='mb-6'>Булки</h2>
@@ -81,9 +96,5 @@ const BurgerIngredients = ({data}) => {
         </>
     );
 };
-
-BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-}
 
 export default BurgerIngredients;
