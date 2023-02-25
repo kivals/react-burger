@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import BurgerIngredients from "../Ingredients/BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../Constructor/BurgerConstructor/BurgerConstructor";
 import mainStyles from './Main.module.css';
@@ -8,7 +8,7 @@ import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import Loader from "../UI/AppLoader/Loader";
 
-const AppMain = () => {
+const AppMain: FC = () => {
 
     const dispatch = useDispatch();
 

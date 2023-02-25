@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {FC} from 'react';
 import HeaderLink from "../../UI/HeaderLink/HeaderLink";
 import styles from './AppMenu.module.css';
 
-const AppMenu = () => {
+const AppMenu: FC = () => {
     return (
         <nav title="Главное меню">
             <ul title="Главное меню" className={styles.list}>

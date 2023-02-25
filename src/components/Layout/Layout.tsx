@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {FC} from 'react';
 import AppHeader from "../Header/AppHeader/AppHeader";
 import { Outlet } from "react-router-dom";
 
 import styles from "./Layout.module.css";
 
-const Layout = () => {
+const Layout: FC = () => {
   return (
     <div className={styles.wrapper}>
       <header className={styles.header}>

@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {FC, useEffect, useMemo} from 'react';
 import styles from './IngredientDetails.module.css';
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -6,7 +6,7 @@ import {getIngredients} from "../../../services/actions/ingredients";
 import Loader from "../../UI/AppLoader/Loader";
 import {IState} from "../../../utils/types";
 
-const IngredientDetails = () => {
+const IngredientDetails: FC = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { ingredients, isLoading, hasError } = useSelector((state: IState) => state.ingredients);
@@ -56,6 +56,7 @@ const IngredientDetails = () => {
       </div>
     )
   }
+  return null;
 };
 
 export default IngredientDetails;

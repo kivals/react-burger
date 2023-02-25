@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Routes, Route, useLocation, useNavigate} from 'react-router-dom';
 import LoginPage from "../../pages/Auth/Login/LoginPage";
 import Layout from "../Layout/Layout";
@@ -14,7 +14,7 @@ import IngredientDetails from "../Ingredients/IngredientDetails/IngredientDetail
 import Modal from "../UI/Modal/Modal";
 import OrderList from "../../pages/OrderList/OrderList";
 
-function App() {
+const App: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 

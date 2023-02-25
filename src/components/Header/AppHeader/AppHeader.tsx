@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {FC} from 'react';
 import AppMenu from "../AppMenu/AppMenu";
 import HeaderLink from "../../UI/HeaderLink/HeaderLink";
 import AppLogo from "../AppLogo/AppLogo";
 import styles from './AppHeader.module.css';
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
     return (
         <div className={styles.headerBody}>
             <AppMenu />
