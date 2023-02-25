@@ -1,5 +1,4 @@
 import React from 'react';
-import {iconColorTypes, iconTypes} from "../../../utils/icon-types";
 import AppMenu from "../AppMenu/AppMenu";
 import HeaderLink from "../../UI/HeaderLink/HeaderLink";
 import AppLogo from "../AppLogo/AppLogo";
@@ -10,7 +9,7 @@ const AppHeader = () => {
         <div className={styles.headerBody}>
             <AppMenu />
             <AppLogo />
-            <HeaderLink icon={iconTypes.BURGER} type={iconColorTypes.SECONDARY} path='/profile'>Личный кабинет</HeaderLink>
+            <HeaderLink icon='burger' type='secondary' path='/profile'>Личный кабинет</HeaderLink>
         </div>
     );
 };
