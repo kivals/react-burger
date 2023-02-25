@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from './OrderDetails.module.css';
 import doneImg from "../../../images/graphics.svg";
-import PropTypes from "prop-types";
 
-const OrderDetails = ({number, name}) => {
+interface IOrderDetails {
+    number: string,
+    name: string
+}
+
+const OrderDetails: FC<IOrderDetails> = ({number, name}) => {
   return (
     <>
       <h2 className={`${styles.number} mb-8`}>{number}</h2>
@@ -14,10 +18,5 @@ const OrderDetails = ({number, name}) => {
     </>
   )
 };
-
-OrderDetails.propTypes = {
-  number: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired
-}
 
 export default OrderDetails;
