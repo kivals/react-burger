@@ -1,13 +1,20 @@
 import style from './loader.module.css';
 import { LoaderSvg } from './loader.svg';
-import PropTypes from "prop-types";
+import {TLoaderSizeName, TLoaderSizesLib} from "../../../utils/types";
+import {FC} from "react";
 
-const loaderSizes = {
+const loaderSizes: TLoaderSizesLib = {
   small: 16,
   medium: 24,
   large: 60
 };
-const Loader = ({ size, inverse = false }) => {
+
+interface ILoaderProps {
+  size: TLoaderSizeName,
+  inverse?: boolean
+}
+
+const Loader: FC<ILoaderProps> = ({ size, inverse = false }) => {
   const loaderColor = inverse ? '#fff' : '#3C39EC';
 
   const wrapperStyleKey = 'wrapper_' + size;
@@ -17,10 +24,5 @@ const Loader = ({ size, inverse = false }) => {
     </div>
   );
 };
-
-Loader.propTypes = {
-  size: PropTypes.string,
-  inverse: PropTypes.bool,
-}
 
 export default Loader;
