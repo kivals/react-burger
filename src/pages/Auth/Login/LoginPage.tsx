@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import styles from './Login.module.css';
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation} from "react-router-dom";
@@ -6,32 +6,35 @@ import AuthWrapper from "../AuthWrapper";
 import {useDispatch, useSelector} from "react-redux";
 import {checkUserAuth, login} from "../../../services/actions/auth";
 import { useNavigate } from 'react-router-dom';
+import {IState} from "../../../utils/types";
 
-const LoginPage = () => {
+const LoginPage: FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const { isAuth, errorMessage } = useSelector(state => state.auth);
-  let from = location.state?.from?.pathname;
+  const [email, setEmail] = React.useState<string>('');
+  const [password, setPassword] = React.useState<string>('');
+  const { isAuth, errorMessage } = useSelector((state: IState) => state.auth);
+  let from: string = location.state?.from?.pathname;
 
   useEffect(() => {
-    dispatch(checkUserAuth());
+    // @ts-ignore
+      dispatch(checkUserAuth());
   }, [dispatch]);
 
-  const onChangeEmail = e => {
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
   }
 
-  const onChangePassword = e => {
+  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value)
   }
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (email && password && password.length >= 6) {
-      dispatch(login({email, password}));
+      // @ts-ignore
+        dispatch(login({email, password}));
     }
   }
 

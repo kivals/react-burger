@@ -4,21 +4,21 @@ import styles from "./ResetPassword.module.css";
 import {Link, Navigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {saveResetPassword} from "../../../services/actions/auth";
-import React from "react";
+import React, {FC} from "react";
+import {IState} from "../../../utils/types";
 
-const ResetPassword = () => {
+const ResetPassword: FC = () => {
   const dispatch = useDispatch();
 
   const [password, setPassword] = React.useState('');
   const [code, setCode] = React.useState('');
 
-  const { isResetPasswordPage } = useSelector(state => state.auth);
+  const { errorMessage, successRestorePassword, isResetPasswordPage } = useSelector((state: IState) => state.auth);
 
-  const { errorMessage, successRestorePassword } = useSelector(state => state.auth);
-
-  const saveHandler = (e) => {
+  const saveHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    dispatch(saveResetPassword(code, password));
+    // @ts-ignore
+      dispatch(saveResetPassword(code, password));
   }
 
   return isResetPasswordPage ? (

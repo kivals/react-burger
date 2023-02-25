@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {FC} from 'react';
 
-const IngredientDetailsPage = () => {
+const IngredientDetailsPage: FC = () => {
   return (
     <div>
       <h1>Детали ингредиента</h1>

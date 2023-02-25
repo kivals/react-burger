@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from "./Home.module.css";
 import AppMain from "../../components/Main/AppMain";
 
-const Home = () => {
+const Home: FC = () => {
   return (
     <div>
       <div className={`${styles.app}`}>

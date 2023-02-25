@@ -1,8 +1,14 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from "./AuthWrapper.module.css";
-import PropTypes from "prop-types";
 
-const AuthWrapper = ({title, children, error, onSubmitHandler}) => {
+interface IAuthWrapperProps {
+  title: string,
+  children: React.ReactNode,
+  error?: string,
+  onSubmitHandler: (e: React.FormEvent<HTMLFormElement>) => void
+}
+
+const AuthWrapper: FC<IAuthWrapperProps> = ({title, children, error, onSubmitHandler}) => {
   return (
     <form onSubmit={onSubmitHandler} className={styles.authBody}>
       <h1 className='mb-3'>{title}</h1>
@@ -11,11 +17,5 @@ const AuthWrapper = ({title, children, error, onSubmitHandler}) => {
     </form>
   );
 };
-
-AuthWrapper.propTypes = {
-  title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  error: PropTypes.string,
-}
 
 export default AuthWrapper;

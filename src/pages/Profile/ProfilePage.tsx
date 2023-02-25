@@ -1,15 +1,16 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from './Profile.module.css';
 import ProfileEdit from "../../components/Profile/ProfileEdit/ProfileEdit";
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {logout} from "../../services/actions/auth";
 
-const ProfilePage = () => {
+const ProfilePage: FC = () => {
   const dispatch = useDispatch();
 
-  const exitHandler = (e) => {
+  const exitHandler = (e: React.MouseEvent) => {
     e.preventDefault();
+    // @ts-ignore
     dispatch(logout());
   }
 

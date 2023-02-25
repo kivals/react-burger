@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import AuthWrapper from "../AuthWrapper";
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Navigate, useNavigate} from "react-router-dom";
@@ -6,25 +6,28 @@ import {Link, Navigate, useNavigate} from "react-router-dom";
 import styles from './ForgotPassword.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {checkUserAuth, resetPassword} from "../../../services/actions/auth";
+import {IState} from "../../../utils/types";
 
-const ForgotPassword = () => {
+const ForgotPassword: FC = () => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
-  const [email, setEmail] = React.useState('');
+  const [email, setEmail] = React.useState<string>('');
 
-  const {isAuth, isResetPasswordPage } = useSelector(state => state.auth);
+  const {isAuth, isResetPasswordPage } = useSelector((state: IState) => state.auth);
 
   useEffect(() => {
-    dispatch(checkUserAuth());
+    // @ts-ignore
+      dispatch(checkUserAuth());
   }, [dispatch]);
 
-  const onChangeEmail = e => {
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
   }
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(resetPassword(email));
+    // @ts-ignore
+      dispatch(resetPassword(email));
   }
 
   if (isAuth) {
