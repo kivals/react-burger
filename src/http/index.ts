@@ -1,12 +1,15 @@
-import axios from "axios";
+import axios, {AxiosHeaders, AxiosInstance, AxiosRequestConfig} from "axios";
 import {API_AUTH_URL} from "../utils/consts";
 
-const $api = axios.create({
+const $api: AxiosInstance = axios.create({
   baseURL: API_AUTH_URL,
 })
 
-$api.interceptors.request.use((config) => {
-  config.headers.Authorization = `${localStorage.getItem('token')}`;
+$api.interceptors.request.use(async (config: AxiosRequestConfig ) => {
+  const token = `${localStorage.getItem('token')}`;
+  if (config.headers) {
+    (config.headers as AxiosHeaders).set("Authorization", token);
+  }
   return config;
 })
 
@@ -15,7 +18,6 @@ $api.interceptors.response.use((config) => {
 }, async error => {
   const originalRequest = error.config;
   if (error.response.status === 403 && error.config && !error.config._isRetry) {
-    console.log("ОБНОВИТЬ REFRESH TOKEN");
     error.config._isRetry = true;
     const response = await axios.post(
       `${API_AUTH_URL}/token`,
