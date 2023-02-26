@@ -9,9 +9,15 @@ import { rootReducer } from './services/reducers/rootReducer';
 import thunk from 'redux-thunk';
 import { applyMiddleware, compose, createStore } from "redux";
 
+declare global {
+    interface Window {
+        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+    }
+}
+
 const composeEnhancers =
     typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-        ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+        ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({} as any)
         : compose;
 
 const enhancer = composeEnhancers(applyMiddleware(thunk));
@@ -19,7 +25,7 @@ const enhancer = composeEnhancers(applyMiddleware(thunk));
 const store = createStore(rootReducer, enhancer);
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root')
+  document.getElementById('root') as HTMLElement
 );
 
 root.render(

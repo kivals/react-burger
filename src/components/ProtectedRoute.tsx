@@ -1,16 +1,21 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import {Navigate, useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import Loader from "./UI/AppLoader/Loader";
 import {checkUserAuth} from "../services/actions/auth";
-import PropTypes from "prop-types";
+import {IState} from "../utils/types";
 
-const ProtectedRoute = ({ element }) => {
+interface IProtectedRouteProps {
+  element: React.ReactNode
+}
+
+const ProtectedRoute: FC<IProtectedRouteProps> = ({ element }) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { user, isAuthChecked } = useSelector(state => state.auth);
+  const { user, isAuthChecked } = useSelector((state: IState) => state.auth);
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(checkUserAuth());
   }, [dispatch]);
 
@@ -24,10 +29,5 @@ const ProtectedRoute = ({ element }) => {
 
   return <>{element}</>;
 };
-
-ProtectedRoute.propType = {
-  element: PropTypes.node.isRequired
-}
-
 
 export default ProtectedRoute;
