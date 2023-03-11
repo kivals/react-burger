@@ -25,7 +25,7 @@ const App: FC = () => {
       <Routes location={background || location}>
         <Route path="/" element={<Layout />} >
           <Route path="/" element={<Home />} />
-          <Route path="/list" element={<OrderList />} />
+          <Route path="/feed" element={<OrderList />} />
           <Route path="/ingredients/:id" element={ <IngredientDetails />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

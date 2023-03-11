@@ -1,0 +1,78 @@
+.root {
+    width: 100%;
+    height: 100%;
+    padding-top: 50px;
+}
+
+.title {
+    margin-bottom: 24px;
+}
+
+.body {
+    display: flex;
+    height: 100%;
+}
+
+.list li:not(:last-child) {
+    margin-bottom: 12px;
+}
+
+.left {
+    width: 50%;
+}
+
+.right {
+    width: 50%;
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.row {
+    margin-bottom: 60px;
+}
+
+.row.numbersRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.count {
+    font-family: 'Iceland', Arial, sans-serif;
+    font-size: 144px;
+    line-height: 120px;
+    color: #F2F2F3;
+    text-shadow:
+            0 0 16px rgba(51, 51, 255, 0.25),
+            0 0 8px rgba(51, 51, 255, 0.25),
+            0 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.numberTitle {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+    margin-bottom: 24px;
+}
+
+.numbersList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.numbersList li {
+    font-family: 'Iceland', Arial, sans-serif;
+    font-size: 28px;
+    line-height: 24px;
+    color: #00CCCC;
+}
+
+.numbersList li:not(:last-child) {
+    margin-bottom: 8px;
+}
