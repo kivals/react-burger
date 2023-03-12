@@ -9,7 +9,7 @@ import {CLEAR_ORDER, getOrderData} from "../../../services/actions/order";
 import Loader from "../../UI/AppLoader/Loader";
 import {calcTotalPrice} from "../../../utils/utils";
 import {useNavigate} from "react-router-dom";
-import {IState} from "../../../utils/types";
+import {IState, TIngredient} from "../../../utils/types";
 
 const ConstructorOrder = () => {
     const dispatch = useDispatch();
@@ -25,11 +25,8 @@ const ConstructorOrder = () => {
         return navigate('/login');
       } else {
         if (ingredients.length === 0 || !bun._id) return;
-        const body = {
-          ingredients: [...ingredients.map(ing => ing._id), bun._id],
-        }
-        // @ts-ignore
-          dispatch(getOrderData(body));
+          const ingredientsBody: TIngredient[] = [...ingredients.map(ing => ing._id), bun._id]);
+          dispatch(getOrderData(ingredientsBody));
       }
     };
 

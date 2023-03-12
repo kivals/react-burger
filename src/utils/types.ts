@@ -10,21 +10,27 @@ export type TIngredientTypes = 'bun' | 'main' | 'sauce';
 
 export type TBunTypes = 'top' | 'bottom';
 
-export interface IIngredient {
-    _id: string,
-    name: string,
-    type: TIngredientTypes,
-    proteins: number,
-    fat: number,
-    carbohydrates: number,
-    calories: number,
-    price: number,
-    image: string,
-    image_mobile: string,
-    image_large: string,
-    __v: number,
-    key: string
+export type TRawIngredient = {
+    _id: string;
+    name: string;
+    type: TIngredientTypes;
+    proteins: number;
+    fat: number;
+    carbohydrates: number;
+    calories: number;
+    price: number;
+    image: string;
+    image_mobile: string;
+    image_large: string;
+    __v: number;
 }
+
+export type TRawOrder = {
+    name: string;
+    number: number;
+}
+
+export type TIngredient = Partial<TRawIngredient> & { key: string, order: number}
 
 export interface IBunIngredient extends IIngredient {
     type: 'bun'
@@ -73,3 +79,10 @@ export interface IOrderInfoState {
     number: string,
     name: string
 }
+
+export type TUser = {
+    readonly id: number;
+    readonly password: string;
+    readonly email: string;
+    readonly name: string;
+};

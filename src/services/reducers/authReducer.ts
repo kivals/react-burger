@@ -1,3 +1,4 @@
+import {TAuthActions} from "../actions/auth";
 import {
   AUTH_CHECK, CLEAR_ERROR_MESSAGE,
   CLEAR_PROFILE_SUCCESS, CLEAR_RESTORE_FLAGS,
@@ -21,10 +22,21 @@ import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS, SAVE_RESET_PASSWORD_FAILED,
   SAVE_RESET_PASSWORD_REQUEST, SAVE_RESET_PASSWORD_SUCCESS
-}
-  from "../actions/auth";
+} from "../constants/auth";
+import {TUser} from "../../utils/types";
 
-const initialState = {
+export type TAuthState = {
+  user: TUser | null;
+  isAuth: boolean;
+  isAuthChecked: boolean;
+  isLoading: boolean;
+  errorMessage: string;
+  successUpdate: boolean;
+  successRestorePassword: boolean;
+  isResetPasswordPage: boolean;
+}
+
+const initialState: TAuthState = {
   user: null,
   isAuth: false,
   isAuthChecked: false,
@@ -35,7 +47,9 @@ const initialState = {
   isResetPasswordPage: false,
 }
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (
+  state = initialState,
+  action: TAuthActions): TAuthState => {
   switch (action.type) {
     case LOGIN_REQUEST: {
       return {
@@ -114,7 +128,6 @@ export const authReducer = (state = initialState, action) => {
         errorMessage: action.value,
       }
     }
-
     case PROFILE_UPDATE_REQUEST: {
       return {
         ...state,
@@ -156,7 +169,7 @@ export const authReducer = (state = initialState, action) => {
     case LOGOUT_REQUEST_SUCCESS: {
       return {
         ...state,
-        user: {...action.value},
+        user: null,
         isAuth: false,
         isLoading: false,
         errorMessage: '',

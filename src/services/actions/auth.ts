@@ -1,38 +1,143 @@
 import authService from "../auth.service";
+import {
+  LOGIN_REQUEST,
+  LOGIN_REQUEST_FAILED,
+  LOGIN_REQUEST_SUCCESS,
+  LOGOUT_CLEAR_PROFILE,
+  LOGOUT_REQUEST,
+  LOGOUT_REQUEST_FAILED,
+  LOGOUT_REQUEST_SUCCESS,
+  PROFILE_REQUEST,
+  PROFILE_REQUEST_FAILED,
+  PROFILE_REQUEST_SUCCESS,
+  PROFILE_UPDATE_FAILED,
+  PROFILE_UPDATE_REQUEST,
+  PROFILE_UPDATE_SUCCESS,
+  REGISTER_REQUEST,
+  REGISTER_REQUEST_FAILED,
+  REGISTER_REQUEST_SUCCESS,
+  RESET_PASSWORD_FAILED,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS, SAVE_RESET_PASSWORD_FAILED,
+  SAVE_RESET_PASSWORD_REQUEST, SAVE_RESET_PASSWORD_SUCCESS
+} from "../constants/auth";
+import {TUser} from "../types/data";
 
-export const LOGIN_REQUEST = "LOGIN_REQUEST";
-export const LOGIN_REQUEST_SUCCESS = "LOGIN_REQUEST_SUCCESS";
-export const LOGIN_REQUEST_FAILED = "LOGIN_REQUEST_FAILED";
+export interface ILoginAction {
+  readonly type: typeof LOGIN_REQUEST;
+}
 
-export const REGISTER_REQUEST = "REGISTER_REQUEST";
-export const REGISTER_REQUEST_SUCCESS = "REGISTER_REQUEST_SUCCESS";
-export const REGISTER_REQUEST_FAILED = "REGISTER_REQUEST_FAILED";
+export interface ILoginSuccessAction {
+  readonly type: typeof LOGIN_REQUEST_SUCCESS;
+  readonly value: TUser;
+}
 
-export const PROFILE_REQUEST = "PROFILE_REQUEST";
-export const PROFILE_REQUEST_SUCCESS = "PROFILE_REQUEST_SUCCESS";
-export const PROFILE_REQUEST_FAILED = "PROFILE_REQUEST_FAILED";
-export const PROFILE_UPDATE_REQUEST = "PROFILE_UPDATE_REQUEST";
-export const PROFILE_UPDATE_SUCCESS = "PROFILE_UPDATE_SUCCESS";
-export const PROFILE_UPDATE_FAILED = "PROFILE_UPDATE_FAILED";
-export const CLEAR_PROFILE_SUCCESS= "CLEAR_PROFILE_SUCCESS";
-export const AUTH_CHECK = "AUTH_CHECK";
+export interface ILoginFailedAction {
+  readonly type: typeof LOGIN_REQUEST_FAILED;
+  value: string;
+}
 
-export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
-export const LOGOUT_REQUEST_SUCCESS = "LOGOUT_REQUEST_SUCCESS";
-export const LOGOUT_REQUEST_FAILED = "LOGOUT_REQUEST_FAILED";
-export const LOGOUT_CLEAR_PROFILE = "LOGOUT_CLEAR_PROFILE";
+export interface IRegisterAction {
+  readonly type: typeof REGISTER_REQUEST;
+}
 
-export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
-export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
-export const RESET_PASSWORD_FAILED = "RESET_PASSWORD_FAILED";
+export interface IRegisterSuccessAction {
+  readonly type: typeof REGISTER_REQUEST_SUCCESS;
+  readonly value: TUser;
+}
 
-export const SAVE_RESET_PASSWORD_REQUEST = "SAVE_RESET_PASSWORD_REQUEST";
-export const SAVE_RESET_PASSWORD_SUCCESS = "SAVE_RESET_PASSWORD_SUCCESS";
-export const SAVE_RESET_PASSWORD_FAILED = "SAVE_RESET_PASSWORD_FAILED";
-export const CLEAR_RESTORE_FLAGS = "CLEAR_RESTORE_FLAGS";
+export interface IRegisterFailedAction {
+  readonly type: typeof REGISTER_REQUEST_FAILED;
+  value: string;
+}
 
-export const CLEAR_ERROR_MESSAGE = "CLEAR_ERROR_MESSAGE";
+export interface IProfileAction {
+  readonly type: typeof PROFILE_REQUEST;
+}
 
+export interface IProfileSuccessAction {
+  readonly type: typeof PROFILE_REQUEST_SUCCESS;
+  readonly value: TUser;
+}
+
+export interface IProfileFailedAction {
+  readonly type: typeof PROFILE_REQUEST_FAILED;
+}
+
+export interface IProfileUpdateAction {
+  readonly type: typeof PROFILE_UPDATE_REQUEST;
+}
+
+export interface IProfileUpdateSuccessAction {
+  readonly type: typeof PROFILE_UPDATE_SUCCESS;
+  readonly value: TUser;
+}
+
+export interface IProfileUpdateFailedAction {
+  readonly type: typeof PROFILE_UPDATE_FAILED;
+  readonly value: string;
+}
+
+export interface ILogoutAction {
+  readonly type: typeof LOGOUT_REQUEST;
+}
+
+export interface ILogoutSuccessAction {
+  readonly type: typeof LOGOUT_REQUEST_SUCCESS;
+}
+
+export interface ILogoutFailedAction {
+  readonly type: typeof LOGOUT_REQUEST_FAILED;
+  readonly value: string;
+}
+
+export interface IResetPasswordAction {
+  readonly type: typeof RESET_PASSWORD_REQUEST;
+}
+
+export interface IResetPasswordSuccessAction {
+  readonly type: typeof RESET_PASSWORD_SUCCESS;
+}
+
+export interface IResetPasswordFailedAction {
+  readonly type: typeof RESET_PASSWORD_FAILED;
+  readonly value: string;
+}
+
+export interface ISaveResetPasswordAction {
+  readonly type: typeof SAVE_RESET_PASSWORD_REQUEST;
+}
+
+export interface ISaveResetPasswordSuccessAction {
+  readonly type: typeof SAVE_RESET_PASSWORD_SUCCESS;
+}
+
+export interface ISaveResetPasswordFailedAction {
+  readonly type: typeof SAVE_RESET_PASSWORD_FAILED;
+  readonly value: string;
+}
+
+export type TAuthActions =
+  | ILoginAction
+  | ILoginSuccessAction
+  | ILoginFailedAction
+  | IRegisterAction
+  | IRegisterSuccessAction
+  | IRegisterFailedAction
+  | IProfileAction
+  | IProfileSuccessAction
+  | IProfileFailedAction
+  | IProfileUpdateAction
+  | IProfileUpdateSuccessAction
+  | ILogoutAction
+  | ILogoutSuccessAction
+  | ILogoutFailedAction
+  | IResetPasswordAction
+  | IResetPasswordSuccessAction
+  | IResetPasswordFailedAction
+  | ISaveResetPasswordAction
+  | ISaveResetPasswordSuccessAction
+  | ISaveResetPasswordFailedAction
 
 export const login = ({email, password}) => async (dispatch) => {
   dispatch({

@@ -1,4 +1,5 @@
-import {CLEAR_ORDER, ORDER_FAILED, ORDER_REQUEST, ORDER_SUCCESS} from "../actions/order";
+import {AppThunk} from "../types";
+import {CLEAR_ORDER, ORDER_FAILED, ORDER_REQUEST, ORDER_SUCCESS} from "../constants/order";
 
 const initialState = {
   orderInfo: null,
