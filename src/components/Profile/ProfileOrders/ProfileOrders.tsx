@@ -1,10 +1,9 @@
 import React, {FC} from 'react';
+import OrderList from "../../Order/OrderList/OrderList";
 
 const ProfileOrders: FC = () => {
   return (
-    <div>
-      <h2>История заказов</h2>
-    </div>
+    <OrderList />
   );
 };
 

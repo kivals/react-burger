@@ -9,7 +9,7 @@ const AppHeader: FC = () => {
         <div className={styles.headerBody}>
             <AppMenu />
             <AppLogo />
-            <HeaderLink icon='burger' type='secondary' path='/profile'>Личный кабинет</HeaderLink>
+            <HeaderLink icon='burger' type='secondary' path='/profile/edit'>Личный кабинет</HeaderLink>
         </div>
     );
 };

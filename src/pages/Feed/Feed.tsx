@@ -1,30 +1,14 @@
 import React, {FC} from 'react';
-import styles from './OrderList.module.css';
-import OrderCard from "./OrderCard";
+import styles from './Feed.module.css';
+import OrderList from "../../components/Order/OrderList/OrderList";
 
-const OrderList: FC = () => {
+const Feed: FC = () => {
   return (
     <div className={styles.root}>
       <h1 className={styles.title}>Лента заказов</h1>
       <div className={styles.body}>
         <section className={styles.left}>
-          <ul className={styles.list}>
-            <li>
-              <OrderCard />
-            </li>
-            <li>
-              <OrderCard />
-            </li>
-            <li>
-              <OrderCard />
-            </li>
-            <li>
-              <OrderCard />
-            </li>
-            <li>
-              <OrderCard />
-            </li>
-          </ul>
+          <OrderList />
         </section>
 
         <section className={styles.right}>
@@ -66,4 +50,4 @@ const OrderList: FC = () => {
   );
 };
 
-export default OrderList;
+export default Feed;

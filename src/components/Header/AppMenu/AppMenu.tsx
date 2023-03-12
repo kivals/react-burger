@@ -10,7 +10,7 @@ const AppMenu: FC = () => {
                     <HeaderLink icon='burger' type='primary' path='/'>Конструктор</HeaderLink>
                 </li>
                 <li className={styles.menuItem}>
-                    <HeaderLink icon='list' type='secondary' path='/list'>Лента заказов</HeaderLink>
+                    <HeaderLink icon='list' type='secondary' path='/feed'>Лента заказов</HeaderLink>
                 </li>
             </ul>
         </nav>
