@@ -1,9 +1,8 @@
 import React, {FC, useEffect} from 'react';
 import {Navigate, useLocation} from 'react-router-dom';
-import {useDispatch, useSelector} from "react-redux";
 import Loader from "./UI/AppLoader/Loader";
 import {checkUserAuth} from "../services/actions/auth";
-import {IState} from "../utils/types";
+import {useDispatch, useSelector} from "../services/hooks";
 
 interface IProtectedRouteProps {
   element: React.ReactNode
@@ -12,10 +11,9 @@ interface IProtectedRouteProps {
 const ProtectedRoute: FC<IProtectedRouteProps> = ({ element }) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { user, isAuthChecked } = useSelector((state: IState) => state.auth);
+  const { user, isAuthChecked } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(checkUserAuth());
   }, [dispatch]);
 

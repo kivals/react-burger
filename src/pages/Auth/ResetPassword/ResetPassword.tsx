@@ -2,10 +2,9 @@ import AuthWrapper from "../AuthWrapper";
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ResetPassword.module.css";
 import {Link, Navigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {saveResetPassword} from "../../../services/actions/auth";
 import React, {FC} from "react";
-import {IState} from "../../../utils/types";
+import {useDispatch, useSelector} from "../../../services/hooks";
 
 const ResetPassword: FC = () => {
   const dispatch = useDispatch();
@@ -13,12 +12,11 @@ const ResetPassword: FC = () => {
   const [password, setPassword] = React.useState('');
   const [code, setCode] = React.useState('');
 
-  const { errorMessage, successRestorePassword, isResetPasswordPage } = useSelector((state: IState) => state.auth);
+  const { errorMessage, successRestorePassword, isResetPasswordPage } = useSelector((state) => state.auth);
 
   const saveHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    // @ts-ignore
-      dispatch(saveResetPassword(code, password));
+      dispatch(saveResetPassword({code, password}));
   }
 
   return isResetPasswordPage ? (

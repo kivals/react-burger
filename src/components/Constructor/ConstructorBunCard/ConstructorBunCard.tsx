@@ -3,10 +3,10 @@ import EmptyConstructorElement from "../BurgerConstructor/EmptyConstructorElemen
 import {BUN_INGREDIENT, BUN_TOP} from "../../../utils/consts";
 import styles from "../BurgerConstructor/BurgerConstructor.module.css";
 import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
-import {IBunIngredient, TBunTypes, TIngredientTypes} from "../../../utils/types";
+import {TBunIngredient, TBunTypes, TIngredient, TIngredientTypes} from "../../../utils/types";
 
 interface IConstructorBunCardProps {
-  bun: IBunIngredient,
+  bun: TBunIngredient | TIngredient | null,
   isHover: boolean,
   dragIngredientType: TIngredientTypes,
   type: TBunTypes

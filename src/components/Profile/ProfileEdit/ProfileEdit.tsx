@@ -1,8 +1,8 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from "react-redux";
 import {updateProfile} from "../../../services/actions/auth";
 import Loader from "../../UI/AppLoader/Loader";
+import {useDispatch, useSelector} from "../../../services/hooks";
 
 const ProfileEdit: FC = () => {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const ProfileEdit: FC = () => {
 
   const nameRef = useRef<HTMLInputElement>(null);
 
-  const { user, isLoading, errorMessage, successUpdate } = useSelector((state: any) => state.auth);
+  const { user, isLoading, errorMessage, successUpdate } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (user) {
@@ -58,15 +58,16 @@ const ProfileEdit: FC = () => {
   }
 
   const cancelHandler = () => {
-    setName(user.name);
-    setEmail(user.email);
+    if (user?.name && user?.email) {
+      setName(user.name);
+      setEmail(user.email);
+    }
     setPassword('');
     setIsUpdate(false);
   }
 
   const saveHandler = () => {
-    // @ts-ignore
-    dispatch(updateProfile(name, email, password));
+    dispatch(updateProfile({name, email, password}));
     setIsUpdate(false);
   }
 

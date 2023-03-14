@@ -5,7 +5,7 @@ import burgerIngredientsStyles from './BurgerIngredients.module.css';
 import {BUN_INGREDIENT, MAIN_INGREDIENT, SAUCE_INGREDIENT} from "../../../utils/consts";
 import {useInView} from "react-intersection-observer";
 import {useNavigate} from "react-router-dom";
-import {IIngredient, TIngredientTypes} from "../../../utils/types";
+import {TIngredient, TIngredientTypes} from "../../../utils/types";
 
 const observerOptions = {
     threshold: 0.1,
@@ -13,7 +13,7 @@ const observerOptions = {
 }
 
 interface IBurgerIngredientsProps {
-    data: IIngredient[]
+    data: TIngredient[]
 }
 
 const BurgerIngredients: FC<IBurgerIngredientsProps> = ({data}) => {
@@ -34,7 +34,6 @@ const BurgerIngredients: FC<IBurgerIngredientsProps> = ({data}) => {
             setCurrentTab(MAIN_INGREDIENT)
         }
     }, [bunRefVisible, sauceRefVisible, mainRefVisible])
-
 
     const buns = React.useMemo(() => data.filter( ing => ing.type === BUN_INGREDIENT), [data]);
     const sauces = React.useMemo(() => data.filter( ing => ing.type === SAUCE_INGREDIENT), [data]);

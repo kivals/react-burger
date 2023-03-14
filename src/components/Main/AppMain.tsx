@@ -2,21 +2,20 @@ import React, {FC, useEffect} from 'react';
 import BurgerIngredients from "../Ingredients/BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../Constructor/BurgerConstructor/BurgerConstructor";
 import mainStyles from './Main.module.css';
-import {useDispatch, useSelector} from "react-redux";
 import {getIngredients} from "../../services/actions/ingredients";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import Loader from "../UI/AppLoader/Loader";
+import {useDispatch, useSelector} from "../../services/hooks";
 
 const AppMain: FC = () => {
 
     const dispatch = useDispatch();
 
-    const { ingredients, isLoading, hasError } = useSelector((state: any) => state.ingredients);
+    const { ingredients, isLoading, hasError } = useSelector((state) => state.ingredients);
 
     useEffect(
       () => {
-          // @ts-ignore
           dispatch(getIngredients());
       },
       [dispatch]
