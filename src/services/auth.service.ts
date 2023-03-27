@@ -1,6 +1,6 @@
 import $api from "../http";
 import axios from "axios";
-import {BASE_API_URL} from "../utils/consts";
+import {BASE_API_URL, POST_ORDER_URL} from "../utils/consts";
 
 const login = async (email: string, password: string) => {
   return $api.post('/login', {email, password});
@@ -30,6 +30,10 @@ const saveResetPassword = async (code: string, password: string) => {
   return axios.post(`${BASE_API_URL}/password-reset/reset`, {password, token: code})
 }
 
+const postOrder = async (ingredientsIds: string[]) => {
+  return $api.post(POST_ORDER_URL, {ingredients: ingredientsIds});
+}
+
 const authService = {
   login,
   register,
@@ -38,6 +42,7 @@ const authService = {
   logout,
   resetPassword,
   saveResetPassword,
+  postOrder,
 };
 
 export default authService;

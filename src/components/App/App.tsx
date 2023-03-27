@@ -68,6 +68,11 @@ const App: FC = () => {
                 <OrderItem />
               </Modal>
             } />
+            <Route path="/profile/orders/:id" element={
+              <Modal title="" onClose={() => navigate("/profile/orders")}>
+                <OrderItem />
+              </Modal>
+            } />
           </Route>
         </Routes>
       )}

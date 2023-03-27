@@ -1,14 +1,17 @@
 import React, {FC} from 'react';
 import styles from './OrderItem.module.css';
 import AppIcon from "../../components/UI/AppIcon/AppIcon";
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import {useSelector} from "../../services/hooks";
 import {dateFormat, getDateFormat} from "../../utils/date";
 
 const OrderItem: FC = () => {
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
 
-  const orders = useSelector((store) => store.webSocket.orders);
+  const ordersAll = useSelector((store) => store.webSocket.orders);
+  const ordersUser = useSelector((store) => store.webSocketUser.orders);
+  const orders = location.pathname.includes('profile/orders') ? ordersUser : ordersAll;
   const ingredients = useSelector((store) => store.ingredients.ingredients);
 
   const order = React.useMemo(() => {

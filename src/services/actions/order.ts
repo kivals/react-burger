@@ -1,8 +1,7 @@
-import axios from "axios";
-import {POST_ORDER_URL} from "../../utils/consts";
 import {CLEAR_ORDER, ORDER_FAILED, ORDER_REQUEST, ORDER_SUCCESS} from "../constants/order";
 import {TRawOrder} from "../../utils/types";
 import {AppDispatch} from "../types";
+import authService from "../auth.service";
 
 export interface IOrderRequestAction {
   readonly type: typeof ORDER_REQUEST;
@@ -42,7 +41,7 @@ export type TOrderActions =
 
 export const getOrderData = (ingredientsIds: string[]) => (dispatch: AppDispatch) => {
   dispatch(getOrderDataAction());
-  axios.post(POST_ORDER_URL, {ingredients: ingredientsIds}).then(({ data }) => {
+  authService.postOrder(ingredientsIds).then(({ data }) => {
     if (data && data.success) {
       dispatch(getOrderDataSuccessAction({
         name: data.name,
