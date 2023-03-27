@@ -3,23 +3,16 @@ import thunk from 'redux-thunk';
 
 import {rootReducer} from "./reducers/rootReducer";
 import {composeWithDevTools} from "redux-devtools-extension";
-
-/*declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
-
-export const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const enhancer = composeEnhancers(applyMiddleware(thunk));
-
-export const store = createStore(rootReducer, enhancer);*/
+import {socketMiddleware} from "./middleware/websocket";
+import {WS_URL} from "../utils/consts";
+import {wsActions, wsActionsUser} from "./actions/websockets";
 
 const store = createStore(
   rootReducer, composeWithDevTools(
     applyMiddleware(
       thunk,
+      socketMiddleware(() => WS_URL + '/all', wsActions),
+      socketMiddleware(() => WS_URL + `?token=${localStorage.getItem('token')}`, wsActionsUser),
     )
   )
 );

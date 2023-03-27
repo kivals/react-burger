@@ -8,3 +8,4 @@ export const MAIN_INGREDIENT = 'main';
 export const ESC_KEY_CODE = 'Escape';
 export const BUN_TOP = 'top';
 export const BUN_BOTTOM = 'bottom';
+export const WS_URL = 'wss://norma.nomoreparties.space/orders';
