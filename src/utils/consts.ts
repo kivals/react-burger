@@ -1,7 +1,7 @@
 export const BASE_API_URL = 'https://norma.nomoreparties.space/api';
-export const GET_INGREDIENTS_URL = 'https://norma.nomoreparties.space/api/ingredients';
-export const POST_ORDER_URL = 'https://norma.nomoreparties.space/api/orders';
-export const API_AUTH_URL = 'https://norma.nomoreparties.space/api/auth';
+export const GET_INGREDIENTS_URL = `${BASE_API_URL}/ingredients`;
+export const POST_ORDER_URL = `${BASE_API_URL}/orders`;
+export const API_AUTH_URL = `${BASE_API_URL}/auth`;
 export const BUN_INGREDIENT = 'bun';
 export const SAUCE_INGREDIENT = 'sauce';
 export const MAIN_INGREDIENT = 'main';

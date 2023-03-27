@@ -8,11 +8,12 @@ export const socketMiddleware = (
     let socket: WebSocket | null = null;
     return (next) => {
       return (action) => {
-        const { dispatch } = store;
-        const { type } = action;
+        const { dispatch, getState } = store;
+        const { type, value } = action;
         const { wsInit, onOpen, onClose, onError, onOrders } = actions;
+        const { isAuth } = getState().auth;
         if (type === wsInit) {
-          socket = new WebSocket(url());
+          socket = new WebSocket(`${url()}${type === wsInit && value && isAuth ? `?token=${value}` : '' }`);
           if (socket) {
             socket.onopen = () => {
               dispatch({ type: onOpen });

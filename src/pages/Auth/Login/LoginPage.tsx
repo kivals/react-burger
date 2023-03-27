@@ -35,10 +35,11 @@ const LoginPage: FC = () => {
     }
   }
 
-  if (isAuth) {
-    navigate(from || '/', {replace: true});
-    return null;
-  }
+  useEffect(() => {
+    if (isAuth) {
+      navigate(from || '/', {replace: true});
+    }
+  }, [navigate, isAuth, from])
 
   return (
     <AuthWrapper title='Вход' error={errorMessage} onSubmitHandler={onSubmitHandler}>

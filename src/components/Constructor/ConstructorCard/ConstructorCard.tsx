@@ -2,10 +2,10 @@ import React, {FC, useEffect} from 'react';
 import styles from "./ConstructorCard.module.css";
 import AppIcon from "../../UI/AppIcon/AppIcon";
 import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch} from "react-redux";
 import {useDrag, useDrop} from "react-dnd";
 import {TIngredient} from "../../../utils/types";
 import {deleteIngredient2Constructor, sortIngredient2Constructor} from "../../../services/actions/burgerConstructor";
+import {useDispatch} from "../../../services/hooks";
 
 interface IConstructorCardProps {
   ingredient: TIngredient

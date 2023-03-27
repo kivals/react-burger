@@ -9,7 +9,8 @@ import OrderItem from "../../../pages/OrderDetails/OrderItem";
 const ProfileOrderDetails: FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(wsConnectionStartUser());
+    const token = localStorage.getItem('token')?.split(' ')[1];
+    dispatch(wsConnectionStartUser(token));
     return () => {
       dispatch(wsConnectionClosedUser());
     };

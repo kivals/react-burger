@@ -1,20 +1,12 @@
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useMemo} from 'react';
 import styles from './IngredientDetails.module.css';
 import {useParams} from "react-router-dom";
-import {getIngredients} from "../../../services/actions/ingredients";
 import Loader from "../../UI/AppLoader/Loader";
-import {useDispatch, useSelector} from "../../../services/hooks";
+import {useSelector} from "../../../services/hooks";
 
 const IngredientDetails: FC = () => {
-  const dispatch = useDispatch();
   const { id } = useParams();
   const { ingredients, isLoading, hasError } = useSelector((state) => state.ingredients);
-
-  useEffect(() => {
-    if (!ingredients.length) {
-      dispatch(getIngredients());
-    }
-  }, [dispatch, ingredients]);
 
   const details = useMemo(() => {
     return ingredients.find(ing => ing._id === id);

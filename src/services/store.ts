@@ -7,14 +7,12 @@ import {socketMiddleware} from "./middleware/websocket";
 import {WS_URL} from "../utils/consts";
 import {wsActions, wsActionsUser} from "./actions/websockets";
 
-const token = localStorage.getItem('token')?.split(' ')[1];
-
 const store = createStore(
   rootReducer, composeWithDevTools(
     applyMiddleware(
       thunk,
       socketMiddleware(() => WS_URL + '/all', wsActions),
-      socketMiddleware(() => WS_URL + `?token=${token}`, wsActionsUser),
+      socketMiddleware(() => WS_URL, wsActionsUser),
     )
   )
 );

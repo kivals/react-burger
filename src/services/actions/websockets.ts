@@ -28,7 +28,8 @@ export interface IWsGetOrders {
 }
 
 export interface IWsConnectionStartUser {
-  readonly type: typeof WS_CONNECTION_START_USER
+  readonly type: typeof WS_CONNECTION_START_USER,
+  readonly value: String | undefined
 }
 
 export interface IWsConnectionSuccessUser {
@@ -79,9 +80,10 @@ export const wsGetOrderds = (payload: TOrders): IWsGetOrders => {
   };
 };
 
-export const wsConnectionStartUser = (): IWsConnectionStartUser => {
+export const wsConnectionStartUser = (payload: string | undefined): IWsConnectionStartUser => {
   return {
-    type: WS_CONNECTION_START_USER
+    type: WS_CONNECTION_START_USER,
+    value: payload,
   };
 };
 
