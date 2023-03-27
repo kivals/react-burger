@@ -106,3 +106,10 @@
     background-color: rgba(0, 0, 0, 0.5);
     font-family: 'JetBrains Mono', serif;
 }
+
+.link {
+    text-decoration: none;
+    color: white;
+    display: grid;
+    gap: 24px;
+}

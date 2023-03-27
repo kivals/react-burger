@@ -7,7 +7,7 @@ import {
   SORT_CONSTRUCTOR_INGREDIENT
 } from "../constants/burgerConstructor";
 import {TBunIngredient, TIngredient, TRawIngredient} from "../../utils/types";
-import {AppDispatch, AppThunk} from "../types";
+import {AppDispatch} from "../types";
 
 export interface IAddConstructorIngredient {
   readonly type: typeof ADD_CONSTRUCTOR_INGREDIENT,

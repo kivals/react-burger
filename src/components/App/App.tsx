@@ -17,6 +17,7 @@ import Feed from "../../pages/Feed/Feed";
 import ProfileEdit from "../Profile/ProfileEdit/ProfileEdit";
 import {getIngredients} from "../../services/actions/ingredients";
 import {useDispatch} from "../../services/hooks";
+import OrderData from "../../pages/Feed/OrderData";
 
 const App: FC = () => {
   const location = useLocation();
@@ -38,7 +39,7 @@ const App: FC = () => {
         <Route path="/" element={<Layout />} >
           <Route path="/" element={<Home />} />
           <Route path="/feed" element={<Feed />} />
-          <Route path="/feed/:id" element={<OrderItem />} />
+          <Route path="/feed/:id" element={<OrderData />} />
           <Route path="/ingredients/:id" element={ <IngredientDetails />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -60,6 +61,11 @@ const App: FC = () => {
             <Route path="/ingredients/:id" element={
               <Modal title="Детали ингредиента" onClose={() => navigate("/")}>
                 <IngredientDetails />
+              </Modal>
+            } />
+            <Route path="/feed/:id" element={
+              <Modal title="" onClose={() => navigate("/feed")}>
+                <OrderItem />
               </Modal>
             } />
           </Route>
