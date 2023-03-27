@@ -41,4 +41,26 @@ export type TUser = {
     readonly name: string;
 };
 
+export type TOrder = {
+    ingredients: string[],
+    _id: string,
+    status: string,
+    number: number,
+    createdAt: string,
+    updatedAt: string,
+    name: string
+}
+
+export type TOrders = {
+    success: boolean,
+    orders: TOrder[],
+    total: number,
+    totalToday: number
+}
+
+export type TUserOrders = {
+    success: boolean,
+    orders: TOrder[]
+}
+
 

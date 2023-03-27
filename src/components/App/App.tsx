@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import {Routes, Route, useLocation, useNavigate} from 'react-router-dom';
 import LoginPage from "../../pages/Auth/Login/LoginPage";
 import Layout from "../Layout/Layout";
@@ -15,12 +15,22 @@ import Modal from "../UI/Modal/Modal";
 import OrderItem from "../../pages/OrderDetails/OrderItem";
 import Feed from "../../pages/Feed/Feed";
 import ProfileEdit from "../Profile/ProfileEdit/ProfileEdit";
+import {getIngredients} from "../../services/actions/ingredients";
+import {useDispatch} from "../../services/hooks";
 
 const App: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const background = location.state && location.state.background;
+
+  useEffect(
+    () => {
+      dispatch(getIngredients());
+    },
+    [dispatch]
+  );
 
   return (
     <div>

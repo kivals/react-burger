@@ -1,8 +1,20 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import styles from './Feed.module.css';
 import OrderList from "../../components/Order/OrderList/OrderList";
+import {useDispatch} from "../../services/hooks";
+import {wsConnectionClosed, wsConnectionStart} from "../../services/actions/websockets";
+import OrderCommonInfo from "../../components/Order/OrderCommonInfo/OrderCommonInfo";
 
 const Feed: FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(wsConnectionStart());
+    return () => {
+      dispatch(wsConnectionClosed());
+    };
+  }, [dispatch]);
+
   return (
     <div className={styles.root}>
       <h1 className={styles.title}>Лента заказов</h1>
@@ -12,38 +24,7 @@ const Feed: FC = () => {
         </section>
 
         <section className={styles.right}>
-          <div className={`${styles.row} ${styles.numbersRow}`}>
-            <div className={styles.numbers}>
-              <h4 className={styles.numberTitle}>Готовы:</h4>
-              <ul className={styles.numbersList}>
-                <li>034533</li>
-                <li>034533</li>
-                <li>034533</li>
-                <li>034533</li>
-                <li>034533</li>
-                <li>034533</li>
-              </ul>
-            </div>
-            <div className={styles.numbers}>
-              <h4 className={styles.numberTitle}>В работе:</h4>
-              <ul className={styles.numbersList}>
-                <li>034533</li>
-                <li>034533</li>
-                <li>034533</li>
-                <li>034533</li>
-                <li>034533</li>
-                <li>034533</li>
-              </ul>
-            </div>
-          </div>
-          <div className={styles.row}>
-            <h4 className={styles.numberTitle}>Выполнено за все время:</h4>
-            <span className={styles.count}>28 752</span>
-          </div>
-          <div className={styles.todayRow}>
-            <h4 className={styles.numberTitle}>Выполнено за сегодня::</h4>
-            <span className={styles.count}>138</span>
-          </div>
+          <OrderCommonInfo />
         </section>
       </div>
     </div>

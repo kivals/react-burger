@@ -1,25 +1,18 @@
 import React from 'react';
 import styles from './OrderList.module.css';
 import OrderCard from "../../../pages/Feed/OrderCard";
+import {useSelector} from "../../../services/hooks";
 
 const OrderList = () => {
+  const orders = useSelector(state => state.webSocket.orders);
+
   return (
     <ul className={styles.list}>
-      <li>
-        <OrderCard />
-      </li>
-      <li>
-        <OrderCard />
-      </li>
-      <li>
-        <OrderCard />
-      </li>
-      <li>
-        <OrderCard />
-      </li>
-      <li>
-        <OrderCard />
-      </li>
+      {orders.map((order) =>
+        <li key={order._id}>
+          <OrderCard order={order}/>
+        </li>
+      )}
     </ul>
   );
 };
