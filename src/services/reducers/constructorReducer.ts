@@ -1,6 +1,6 @@
 import {TBunIngredient, TIngredient} from "../../utils/types";
 import {
-  ADD_CONSTRUCTOR_INGREDIENT,
+  ADD_CONSTRUCTOR_INGREDIENT, CLEAR_CONSTRUCTOR,
   DELETE_CONSTRUCTOR_INGREDIENT,
   SORT_CONSTRUCTOR_INGREDIENT
 } from "../constants/burgerConstructor";
@@ -12,7 +12,7 @@ export interface IBurgerConstructorState {
     ingredients: TIngredient[],
 }
 
-const initialState: IBurgerConstructorState = {
+export const initialState: IBurgerConstructorState = {
   bun: null,
   ingredients: [],
 }
@@ -53,6 +53,13 @@ export const constructorReducer = (
       return {
         ...state,
         ingredients: state.ingredients.sort((a, b) => a.order - b.order),
+      }
+    }
+    case CLEAR_CONSTRUCTOR: {
+      return {
+        ...state,
+        bun: null,
+        ingredients: []
       }
     }
     default:

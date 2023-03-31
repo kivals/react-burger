@@ -9,7 +9,7 @@ export interface IOrderState {
 }
 
 
-const initialState: IOrderState = {
+export const initialState: IOrderState = {
   orderInfo: null,
   isLoading: false,
   hasError: false,

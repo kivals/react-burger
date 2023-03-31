@@ -12,7 +12,7 @@ interface IWsUserState {
   orders: TOrder[]
 }
 
-const initialState: IWsUserState = {
+export const initialState: IWsUserState = {
   wsConnection: false,
   orders: []
 }

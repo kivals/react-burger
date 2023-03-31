@@ -5,7 +5,7 @@ export interface IModalState {
     isModal: boolean
 }
 
-const initialState: IModalState = {
+export const initialState: IModalState = {
   isModal: false,
 }
 
