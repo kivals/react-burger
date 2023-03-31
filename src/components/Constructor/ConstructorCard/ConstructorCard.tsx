@@ -2,16 +2,13 @@ import React, {FC, useEffect} from 'react';
 import styles from "./ConstructorCard.module.css";
 import AppIcon from "../../UI/AppIcon/AppIcon";
 import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
-import {
-  DELETE_CONSTRUCTOR_INGREDIENT,
-  SORT_CONSTRUCTOR_INGREDIENT
-} from "../../../services/actions/burgerConstructor";
-import {useDispatch} from "react-redux";
 import {useDrag, useDrop} from "react-dnd";
-import {IIngredient} from "../../../utils/types";
+import {TIngredient} from "../../../utils/types";
+import {deleteIngredient2Constructor, sortIngredient2Constructor} from "../../../services/actions/burgerConstructor";
+import {useDispatch} from "../../../services/hooks";
 
 interface IConstructorCardProps {
-  ingredient: IIngredient
+  ingredient: TIngredient
 }
 
 const ConstructorCard: FC<IConstructorCardProps> = ({ingredient}) => {
@@ -26,13 +23,9 @@ const ConstructorCard: FC<IConstructorCardProps> = ({ingredient}) => {
 
   const [{isHover, dragIngredient}, dropTarget] = useDrop({
     accept: "constructor",
-    drop(dragIngredient: IIngredient) {
+    drop(dragIngredient: TIngredient) {
       if (dragIngredient.key === ingredient.key) return;
-
-      dispatch({
-        type: SORT_CONSTRUCTOR_INGREDIENT,
-        value: [ingredient, dragIngredient],
-      })
+      dispatch(sortIngredient2Constructor([ingredient, dragIngredient]))
     },
     collect: monitor => ({
       isHover: monitor.isOver(),
@@ -42,18 +35,12 @@ const ConstructorCard: FC<IConstructorCardProps> = ({ingredient}) => {
 
   useEffect(() => {
     if (isHover && ingredient.key !== dragIngredient.key) {
-      dispatch({
-        type: SORT_CONSTRUCTOR_INGREDIENT,
-        value: [ingredient, dragIngredient],
-      })
+      dispatch(sortIngredient2Constructor([ingredient, dragIngredient]))
     }
   }, [isHover,dispatch, dragIngredient, ingredient])
 
   const handleDelete = (deletedKey: string) => (): void => {
-    dispatch({
-      type: DELETE_CONSTRUCTOR_INGREDIENT,
-      value: deletedKey,
-    })
+    dispatch(deleteIngredient2Constructor(deletedKey))
   }
 
   return (

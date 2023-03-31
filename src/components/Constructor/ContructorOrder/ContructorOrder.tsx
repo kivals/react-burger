@@ -4,32 +4,28 @@ import AppIcon from "../../UI/AppIcon/AppIcon";
 import styles from "./ContructorOrder.module.css";
 import Modal from "../../UI/Modal/Modal";
 import OrderDetails from "../../Order/OrderDetails/OrderDetails";
-import {useDispatch, useSelector} from "react-redux";
-import {CLEAR_ORDER, getOrderData} from "../../../services/actions/order";
+import {getOrderData} from "../../../services/actions/order";
 import Loader from "../../UI/AppLoader/Loader";
 import {calcTotalPrice} from "../../../utils/utils";
 import {useNavigate} from "react-router-dom";
-import {IState} from "../../../utils/types";
+import {useDispatch, useSelector} from "../../../services/hooks";
+import {CLEAR_ORDER} from "../../../services/constants/order";
 
 const ConstructorOrder = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { ingredients, bun } = useSelector((state: IState) => state.burgerConstructor);
-    const { isAuth } = useSelector((state: IState) => state.auth);
-    const { orderInfo } = useSelector((state: IState) => state.order);
-
+    const { ingredients, bun } = useSelector(state => state.burgerConstructor);
+    const { isAuth } = useSelector(state => state.auth);
+    const { orderInfo } = useSelector(state => state.order);
     const totalPrice = useMemo(() => calcTotalPrice(bun, ingredients), [ingredients, bun]);
 
     const makeOrder = () => {
       if (!isAuth) {
         return navigate('/login');
       } else {
-        if (ingredients.length === 0 || !bun._id) return;
-        const body = {
-          ingredients: [...ingredients.map(ing => ing._id), bun._id],
-        }
-        // @ts-ignore
-          dispatch(getOrderData(body));
+        if (ingredients.length === 0 || !bun?._id) return;
+          const ingredientsBody: string[] = [...ingredients.map(ing => ing._id), bun._id];
+          dispatch(getOrderData(ingredientsBody));
       }
     };
 
@@ -52,7 +48,7 @@ const ConstructorOrder = () => {
               extraClass={`${styles.button} ml-10` }
               onClick={makeOrder}
             >
-                Офомить заказ
+                Оформить заказ
             </Button>
           {orderInfo && modal}
         </div>

@@ -31,12 +31,12 @@ const Modal: FC<IModalProps> = ({
 
     return ReactDOM.createPortal(
         <>
-          <div className={styles.modal}>
+          <div className={styles.modal} data-cy="modal">
             <div className={styles.header}>
               <h2 className={styles.title}>{title}</h2>
-              <button className={styles.button}>
+              <div className={styles.button}>
                 <AppIcon icon='close' type='primary' onClick={onClose} />
-              </button>
+              </div>
             </div>
             <div className={styles.content}>{children}</div>
           </div>

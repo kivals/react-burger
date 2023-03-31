@@ -1,9 +1,11 @@
 import {combineReducers} from "redux";
-import {ingredientsReducer} from "./ingredientsReducer.js";
-import {constructorReducer} from "./constructorReducer.js";
+import {ingredientsReducer} from "./ingredientsReducer";
 import {orderReducer} from "./orderReducer";
-import {authReducer} from "./authReducer";
 import {modalReducer} from "./modalReducer";
+import {authReducer} from "./authReducer";
+import {constructorReducer} from "./constructorReducer";
+import {wsReducer} from "./wsReducer";
+import {wsUserReducer} from "./wsUserReducer";
 
 export const rootReducer = (combineReducers({
   ingredients: ingredientsReducer,
@@ -11,4 +13,6 @@ export const rootReducer = (combineReducers({
   order: orderReducer,
   auth: authReducer,
   modal: modalReducer,
+  webSocket: wsReducer,
+  webSocketUser: wsUserReducer
 }));

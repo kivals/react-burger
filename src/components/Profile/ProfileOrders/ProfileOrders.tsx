@@ -1,10 +1,24 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
+import {
+  wsConnectionClosedUser,
+  wsConnectionStartUser
+} from "../../../services/actions/websockets";
+import {useDispatch} from "../../../services/hooks";
+import OrderHistory from "../../Order/OrderHistory/OrderHistory";
 
 const ProfileOrders: FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')?.split(' ')[1];
+    dispatch(wsConnectionStartUser(token));
+    return () => {
+      dispatch(wsConnectionClosedUser());
+    };
+  }, [dispatch]);
+
   return (
-    <div>
-      <h2>История заказов</h2>
-    </div>
+    <OrderHistory />
   );
 };
 

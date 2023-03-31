@@ -10,66 +10,57 @@ export type TIngredientTypes = 'bun' | 'main' | 'sauce';
 
 export type TBunTypes = 'top' | 'bottom';
 
-export interface IIngredient {
+export type TRawIngredient = {
+    _id: string;
+    name: string;
+    type: TIngredientTypes;
+    proteins: number;
+    fat: number;
+    carbohydrates: number;
+    calories: number;
+    price: number;
+    image: string;
+    image_mobile: string;
+    image_large: string;
+    __v: number;
+}
+
+export type TRawOrder = {
+    name: string;
+    number: string;
+}
+
+export type TIngredient = TRawIngredient & { key: string, order: number}
+
+export type TBunIngredient = TIngredient & {type: 'bun'}
+
+export type TUser = {
+    readonly id: number;
+    readonly password: string;
+    readonly email: string;
+    readonly name: string;
+};
+
+export type TOrder = {
+    ingredients: string[],
     _id: string,
-    name: string,
-    type: TIngredientTypes,
-    proteins: number,
-    fat: number,
-    carbohydrates: number,
-    calories: number,
-    price: number,
-    image: string,
-    image_mobile: string,
-    image_large: string,
-    __v: number,
-    key: string
-}
-
-export interface IBunIngredient extends IIngredient {
-    type: 'bun'
-}
-
-export interface IState {
-    ingredients: IIngredientsState,
-    burgerConstructor: IBurgerConstructorState,
-    order: IOrderState,
-    auth: IAuthState
-}
-
-export interface IIngredientsState {
-    ingredients: IIngredient[],
-    isLoading: boolean,
-    hasError: boolean
-}
-
-export interface IBurgerConstructorState {
-    bun: IBunIngredient,
-    ingredients: IIngredient[],
-}
-
-export interface IAuthState {
-    user: IUserState,
-    isAuth: boolean,
-    isAuthChecked: boolean,
-    isLoading: boolean,
-    errorMessage: string,
-    successUpdate: boolean,
-    successRestorePassword: boolean,
-    isResetPasswordPage: boolean,
-}
-
-export interface IUserState {
-
-}
-
-export interface IOrderState {
-    orderInfo: IOrderInfoState,
-    isLoading: boolean,
-    hasError: boolean,
-}
-
-export interface IOrderInfoState {
-    number: string,
+    status: string,
+    number: number,
+    createdAt: string,
+    updatedAt: string,
     name: string
 }
+
+export type TOrders = {
+    success: boolean,
+    orders: TOrder[],
+    total: number,
+    totalToday: number
+}
+
+export type TUserOrders = {
+    success: boolean,
+    orders: TOrder[]
+}
+
+

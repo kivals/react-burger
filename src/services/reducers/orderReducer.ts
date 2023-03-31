@@ -1,12 +1,23 @@
-import {CLEAR_ORDER, ORDER_FAILED, ORDER_REQUEST, ORDER_SUCCESS} from "../actions/order";
+import {CLEAR_ORDER, ORDER_FAILED, ORDER_REQUEST, ORDER_SUCCESS} from "../constants/order";
+import {TOrderActions} from "../actions/order";
+import {TRawOrder} from "../../utils/types";
 
-const initialState = {
+export interface IOrderState {
+    orderInfo: TRawOrder | null,
+    isLoading: boolean,
+    hasError: boolean,
+}
+
+
+export const initialState: IOrderState = {
   orderInfo: null,
   isLoading: false,
   hasError: false,
 }
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (
+  state = initialState,
+  action: TOrderActions): IOrderState => {
   switch (action.type) {
     case ORDER_REQUEST: {
       return {

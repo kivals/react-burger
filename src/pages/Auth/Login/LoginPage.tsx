@@ -3,10 +3,9 @@ import styles from './Login.module.css';
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation} from "react-router-dom";
 import AuthWrapper from "../AuthWrapper";
-import {useDispatch, useSelector} from "react-redux";
 import {checkUserAuth, login} from "../../../services/actions/auth";
 import { useNavigate } from 'react-router-dom';
-import {IState} from "../../../utils/types";
+import {useDispatch, useSelector} from "../../../services/hooks";
 
 const LoginPage: FC = () => {
   const location = useLocation();
@@ -14,11 +13,10 @@ const LoginPage: FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
-  const { isAuth, errorMessage } = useSelector((state: IState) => state.auth);
+  const { isAuth, errorMessage } = useSelector((state) => state.auth);
   let from: string = location.state?.from?.pathname;
 
   useEffect(() => {
-    // @ts-ignore
       dispatch(checkUserAuth());
   }, [dispatch]);
 
@@ -33,15 +31,15 @@ const LoginPage: FC = () => {
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (email && password && password.length >= 6) {
-      // @ts-ignore
         dispatch(login({email, password}));
     }
   }
 
-  if (isAuth) {
-    navigate(from || '/', {replace: true});
-    return null;
-  }
+  useEffect(() => {
+    if (isAuth) {
+      navigate(from || '/', {replace: true});
+    }
+  }, [navigate, isAuth, from])
 
   return (
     <AuthWrapper title='Вход' error={errorMessage} onSubmitHandler={onSubmitHandler}>

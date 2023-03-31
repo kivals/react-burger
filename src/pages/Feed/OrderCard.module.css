@@ -1,0 +1,115 @@
+.root {
+    width: 584px;
+    background: #1C1C21;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
+    border-radius: 40px;
+    padding: 24px;
+    transition: .2s;
+}
+
+.root:hover {
+    transform: scale(.97);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.number {
+    font-family: 'Iceland', serif;
+    font-style: normal;
+    font-size: 28px;
+    line-height: 24px;
+}
+
+.date {
+    font-size: 16px;
+    line-height: 24px;
+    color: #8585AD;
+}
+
+.content {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+}
+
+.title {
+    color: #F2F2F3;
+    margin-bottom: 24px;
+}
+
+.info {
+    display: flex;
+    height: 64px;
+}
+
+.ingredients {
+    margin-right: 24px;
+    flex-grow: 1;
+}
+
+.priceBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.priceNumber {
+    font-family: 'Iceland', Arial, sans-serif;
+    font-size: 28px;
+    line-height: 24px;
+    margin-right: 5px;
+}
+
+.ingredientsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.ingredientItem {
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 64px;
+    height: 64px;
+    border: 2px solid #801AB2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+}
+
+.ingredientItem:not(:last-child) {
+    margin-left: -20px;
+}
+
+.img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.other {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-family: 'JetBrains Mono', serif;
+}
+
+.link {
+    text-decoration: none;
+    color: white;
+    display: grid;
+    gap: 24px;
+}

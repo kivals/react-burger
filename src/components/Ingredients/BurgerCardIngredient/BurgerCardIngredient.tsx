@@ -2,20 +2,20 @@ import React, {FC, useMemo} from 'react';
 import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import AppIcon from "../../UI/AppIcon/AppIcon";
 import styles from './BurgerCardIngredient.module.css';
-import {useSelector} from "react-redux";
 import {BUN_INGREDIENT} from "../../../utils/consts";
 import {useDrag} from "react-dnd";
 import {Link, useLocation} from "react-router-dom";
-import {IIngredient, IState} from "../../../utils/types";
+import {useSelector} from "../../../services/hooks";
+import {TRawIngredient} from "../../../utils/types";
 
 interface IBurgerCardIngredientProps {
-    data: IIngredient,
+    data: TRawIngredient,
     onClick: () => void
 }
 
 const BurgerCardIngredient: FC<IBurgerCardIngredientProps> = ({data, onClick}) => {
     const location = useLocation();
-    const { ingredients, bun } = useSelector((state: IState ) => state.burgerConstructor);
+    const { ingredients, bun } = useSelector((state) => state.burgerConstructor);
     const [, dragRef] = useDrag({
       type: "ingredient",
       item: data,
@@ -23,7 +23,7 @@ const BurgerCardIngredient: FC<IBurgerCardIngredientProps> = ({data, onClick}) =
 
     const count = useMemo(() => {
       if (data.type === BUN_INGREDIENT && data._id === bun?._id) return 2;
-      return ingredients.filter(ing => ing._id === data._id)?.length;
+      return ingredients.filter((ing: { _id: string; }) => ing._id === data._id)?.length;
     }, [data, ingredients, bun]);
 
     return (

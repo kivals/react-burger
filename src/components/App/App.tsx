@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import {Routes, Route, useLocation, useNavigate} from 'react-router-dom';
 import LoginPage from "../../pages/Auth/Login/LoginPage";
 import Layout from "../Layout/Layout";
@@ -12,27 +12,44 @@ import ResetPassword from "../../pages/Auth/ResetPassword/ResetPassword";
 import ProtectedRoute from "../ProtectedRoute";
 import IngredientDetails from "../Ingredients/IngredientDetails/IngredientDetails";
 import Modal from "../UI/Modal/Modal";
-import OrderList from "../../pages/OrderList/OrderList";
+import OrderItem from "../../pages/OrderDetails/OrderItem";
+import Feed from "../../pages/Feed/Feed";
+import ProfileEdit from "../Profile/ProfileEdit/ProfileEdit";
+import {getIngredients} from "../../services/actions/ingredients";
+import {useDispatch} from "../../services/hooks";
+import OrderData from "../../pages/Feed/OrderData";
 
 const App: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const background = location.state && location.state.background;
+
+  useEffect(
+    () => {
+      dispatch(getIngredients());
+    },
+    [dispatch]
+  );
 
   return (
     <div>
       <Routes location={background || location}>
         <Route path="/" element={<Layout />} >
           <Route path="/" element={<Home />} />
-          <Route path="/list" element={<OrderList />} />
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/feed/:id" element={<OrderData />} />
           <Route path="/ingredients/:id" element={ <IngredientDetails />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/profile" element={<ProtectedRoute element={<ProfilePage />}/>} />
-          <Route path="/profile/orders" element={<ProtectedRoute element={<ProfileOrders />}/>} />
+          <Route path="/profile/*" element={<ProtectedRoute element={<ProfilePage />}/>} >
+            <Route path="edit" element={<ProtectedRoute element={<ProfileEdit />}/>} />
+            <Route path="orders" element={<ProtectedRoute element={<ProfileOrders />}/>} />
+          </Route>
+          {/*<Route path="/profile/orders" element={<ProtectedRoute element={<ProfileOrders />}/>} />*/}
           <Route path="/profile/orders/:id" element={<ProtectedRoute element={<ProfileOrderDetails />}/>} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
@@ -44,6 +61,16 @@ const App: FC = () => {
             <Route path="/ingredients/:id" element={
               <Modal title="Детали ингредиента" onClose={() => navigate("/")}>
                 <IngredientDetails />
+              </Modal>
+            } />
+            <Route path="/feed/:id" element={
+              <Modal title="" onClose={() => navigate("/feed")}>
+                <OrderItem />
+              </Modal>
+            } />
+            <Route path="/profile/orders/:id" element={
+              <Modal title="" onClose={() => navigate("/profile/orders")}>
+                <OrderItem />
               </Modal>
             } />
           </Route>

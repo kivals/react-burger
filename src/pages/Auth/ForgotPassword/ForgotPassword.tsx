@@ -4,19 +4,17 @@ import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-compon
 import {Link, Navigate, useNavigate} from "react-router-dom";
 
 import styles from './ForgotPassword.module.css';
-import {useDispatch, useSelector} from "react-redux";
 import {checkUserAuth, resetPassword} from "../../../services/actions/auth";
-import {IState} from "../../../utils/types";
+import {useDispatch, useSelector} from "../../../services/hooks";
 
 const ForgotPassword: FC = () => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
   const [email, setEmail] = React.useState<string>('');
 
-  const {isAuth, isResetPasswordPage } = useSelector((state: IState) => state.auth);
+  const {isAuth, isResetPasswordPage } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    // @ts-ignore
       dispatch(checkUserAuth());
   }, [dispatch]);
 
@@ -26,8 +24,7 @@ const ForgotPassword: FC = () => {
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // @ts-ignore
-      dispatch(resetPassword(email));
+      dispatch(resetPassword({email}));
   }
 
   if (isAuth) {

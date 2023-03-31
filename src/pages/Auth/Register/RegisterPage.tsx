@@ -4,8 +4,7 @@ import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-deve
 import {Link, useNavigate} from "react-router-dom";
 import AuthWrapper from "../AuthWrapper";
 import {checkUserAuth, register} from "../../../services/actions/auth";
-import {useDispatch, useSelector} from "react-redux";
-import {IState} from "../../../utils/types";
+import {useDispatch, useSelector} from "../../../services/hooks";
 
 const RegisterPage: FC = () => {
   const dispatch = useDispatch();
@@ -14,10 +13,9 @@ const RegisterPage: FC = () => {
   const [name, setName] = React.useState<string>('');
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
-  const { isAuth, errorMessage } = useSelector((state: IState) => state.auth);
+  const { isAuth, errorMessage } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    // @ts-ignore
       dispatch(checkUserAuth());
   }, [dispatch]);
 
@@ -35,7 +33,6 @@ const RegisterPage: FC = () => {
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // @ts-ignore
       dispatch(register({name, email, password}));
   }
 
