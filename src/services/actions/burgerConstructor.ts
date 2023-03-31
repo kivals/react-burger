@@ -2,7 +2,7 @@
 import {v4 as uuidv4} from "uuid";
 import {getTimeStamp} from "../../utils/utils";
 import {
-  ADD_CONSTRUCTOR_INGREDIENT,
+  ADD_CONSTRUCTOR_INGREDIENT, CLEAR_CONSTRUCTOR,
   DELETE_CONSTRUCTOR_INGREDIENT,
   SORT_CONSTRUCTOR_INGREDIENT
 } from "../constants/burgerConstructor";
@@ -39,10 +39,15 @@ export const sortIngredient2Constructor = (sort: [TIngredient, TIngredient]): IS
   value: sort,
 })
 
+export interface IСlearConstructor {
+  readonly type: typeof CLEAR_CONSTRUCTOR,
+}
+
 export type TBurgerConstructorActions =
   | ISortConstructorIngredient
   | IDeleteConstructorIngredient
-  | IAddConstructorIngredient;
+  | IAddConstructorIngredient
+  | IСlearConstructor;
 
 
 export const addIngredientToConstructor = (ingredient: TRawIngredient) => (dispatch: AppDispatch) => {
@@ -54,3 +59,7 @@ export const addIngredientToConstructor = (ingredient: TRawIngredient) => (dispa
 
   dispatch(addIngredient2Constructor(preparedIngredient));
 }
+
+export const clearConstructor = (): IСlearConstructor => ({
+  type: CLEAR_CONSTRUCTOR
+});

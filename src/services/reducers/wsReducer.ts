@@ -9,7 +9,7 @@ interface IWsState {
   totalToday: null | number
 }
 
-const initialState: IWsState = {
+export const initialState: IWsState = {
   wsConnection: false,
   orders: [],
   total: null,
