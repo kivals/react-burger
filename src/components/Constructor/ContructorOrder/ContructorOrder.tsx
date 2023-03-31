@@ -48,7 +48,7 @@ const ConstructorOrder = () => {
               extraClass={`${styles.button} ml-10` }
               onClick={makeOrder}
             >
-                Офомить заказ
+                Оформить заказ
             </Button>
           {orderInfo && modal}
         </div>
