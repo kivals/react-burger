@@ -34,7 +34,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress": "cypress open cache clear",
+    "test:cypress": "cypress run"
   },
   "eslintConfig": {
     "extends": [
@@ -53,5 +55,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@4tw/cypress-drag-drop": "^2.2.3",
+    "cypress": "^12.9.0",
+    "eslint-plugin-cypress": "^2.13.2",
+    "fetch-mock": "^9.11.0",
+    "gh-pages": "^5.0.0"
   }
 }

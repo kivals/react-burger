@@ -26,7 +26,7 @@ const BurgerConstructor: FC = () => {
     });
 
     return (
-        <div className={styles.body} ref={dropTarget}>
+        <div className={styles.body} ref={dropTarget} data-cy="constructor_list">
             <ConstructorBunCard
                 bun={bun}
                 isHover={isHover}
@@ -38,7 +38,7 @@ const BurgerConstructor: FC = () => {
                     <EmptyConstructorElement isHover={isHover && dragIngredient.type !== BUN_INGREDIENT}>
                       Выберите начинку
                     </EmptyConstructorElement> :
-                    <ul className={`${styles.list} mb-2 pr-4`}>
+                    <ul className={`${styles.list} mb-2 pr-4`} data-cy="constructor_ingredient_list">
                         {ingredients.map(ing => (
                             <li key={ing.key}>
                                 <ConstructorCard ingredient={ing} />
