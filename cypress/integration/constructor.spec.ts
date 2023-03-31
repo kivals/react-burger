@@ -29,17 +29,35 @@ describe('service is available', () => {
     cy.get(constructorZone).trigger('drop', { dnd });
     cy.get(constructorIngredientList).should('exist');
     cy.get(constructorIngredientList).should('not.be.empty');
-  })
+  });
+  it('should delete ingredients', () => {
+    const dnd = new DataTransfer();
+    cy.get("[class^=BurgerCardIngredient_image]").eq(2).trigger('dragstart', { dnd });
+    cy.get(constructorZone).trigger('drop', { dnd });
+    cy.get("[class^=BurgerCardIngredient_image]").eq(3).trigger('dragstart', { dnd });
+    cy.get(constructorZone).trigger('drop', { dnd });
+    cy.get(constructorIngredientList).find('li').first().find("[class^=constructor-element__action]").click();
+    cy.get(constructorIngredientList).find('li').first().find("[class^=constructor-element__action]").click();
+    cy.get(constructorIngredientList).should('not.exist');
+  });
+  it('should changed sort ingredients', () => {
+    const dnd = new DataTransfer();
+    const ingredientName = "Соус фирменный Space Sauce";
+    cy.get("[class^=BurgerCardIngredient_image]").eq(2).trigger('dragstart', { dnd });
+    cy.get(constructorZone).trigger('drop', { dnd });
+    cy.get("[class^=BurgerCardIngredient_image]").eq(3).trigger('dragstart', { dnd });
+    cy.get(constructorZone).trigger('drop', { dnd });
+    cy.get(constructorIngredientList).find('li').eq(1).contains(ingredientName);
+
+    cy.get(constructorIngredientList).find('li').eq(1).trigger('dragstart', { dnd });
+    cy.get(constructorIngredientList).find('li').eq(0).trigger('drop', { dnd });
+
+    cy.get(constructorIngredientList).find('li').eq(0).contains(ingredientName);
+  });
   it('should create new order', () => {
     cy.contains('Оформить заказ').click();
-    cy.location('pathname').then(($pathname) => {
-      if ($pathname === '/login') {
-        cy.contains('Войти');
-      } else {
-        cy.get(modal).should('exist');
-        cy.contains('Ваш заказ начали готовить');
-      }
-    })
+    cy.hash().should('eq', '#/login');
+    cy.contains('Войти');
   })
 })
 
@@ -52,7 +70,7 @@ describe('login user', () => {
   }
   beforeEach(() => {
     cy.viewport(1450, 1100);
-    cy.visit('http://localhost:3000/login');
+    cy.visit('http://localhost:3000/#/login');
   })
   it('should login user', () => {
     // eslint-disable-next-line cypress/unsafe-to-chain-command
